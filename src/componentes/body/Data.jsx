@@ -1,15 +1,15 @@
-import madrid from './madrid.jpeg';
-import liverpool from './liverpool.jpeg';
-import bayer from './bayer.jpeg';
-import barcelona from  './barcelona.jpeg';
-import boca from './boca.jpeg';
-import manchesterUnited from './manchesterUnited.jpeg';
-import juventus from './juventus.jpeg';
-import milan from './milan.jpeg';
-import porto from './porto.jpeg';
-import santos from './santos.jpeg';
-import ajax from './ajax.jpeg';
-import chelsea from './chelsea.jpeg';
+import madrid from '../body/img/madrid.jpeg';
+import liverpool from '../body/img/liverpool.jpeg';
+import bayer from '../body/img/bayer.jpeg';
+import barcelona from  '../body/img/barcelona.jpeg';
+import boca from '../body/img/boca.jpeg';
+import manchesterUnited from '../body/img/manchesterUnited.jpeg';
+import juventus from '../body/img/juventus.jpeg';
+import milan from '../body/img/milan.jpeg';
+import porto from '../body/img/porto.jpeg';
+import santos from '../body/img/santos.jpeg';
+import ajax from '../body/img/ajax.jpeg';
+import chelsea from '../body/img/chelsea.jpeg';
 
 export default [
     {
