@@ -1,6 +1,6 @@
 import {Routes, Route, HashRouter} from 'react-router-dom';
-import Inicio from "./App"
-import Registro from './componentes/Registro';
+import Inicio from "./componentes/App"
+import Registro from './componentes/registro/Registro';
 import NotFound from './NotFountd';
 function AppRouter(){
 

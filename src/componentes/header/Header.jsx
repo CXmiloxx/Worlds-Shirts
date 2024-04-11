@@ -4,8 +4,6 @@ import {Link} from 'react-router-dom'
 
 function Header() {
     return (
-
-
         <div>
             <div className='contenedor'>
                 <nav className="navbar navbar-expand-lg ">
@@ -34,7 +32,7 @@ function Header() {
 
                                 <Link to="/registro">
                                     <li className='nav-link disabled'>
-                                        <a className="nav-link disabled" >Login</a>
+                                        <a className="nav-link disabled" >Registro</a>
                                     </li>
                                 </Link>
 
