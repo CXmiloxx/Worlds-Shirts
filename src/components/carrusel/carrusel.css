@@ -1,0 +1,39 @@
+.container-fluid {
+  width: 100%;
+}
+
+.carousel-inner img {
+  max-height: 400px; /* Establecer una altura máxima para las imágenes */
+  width: auto; /* Permitir que el ancho se ajuste automáticamente */
+  margin: auto; /* Centrar las imágenes horizontalmente */
+  object-fit: contain; /* Mantener la relación de aspecto original */
+  background-color: white;
+}
+
+.carousel {
+  max-width: 80%;
+  margin: auto;
+  padding: 2%;
+  border-radius: 10px;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  filter: invert(1);
+}
+
+.carousel-indicators {
+  bottom: 10px;
+}
+
+.carousel-indicators button {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: rgba(251, 249, 249, 0.951);
+  margin: 0 5px;
+}
+
+.carousel-indicators .active {
+  background-color: #ffffff;
+}

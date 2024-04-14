@@ -1,0 +1,27 @@
+
+.contenedor {
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 2% 1%;
+    padding: 10px;
+}
+
+.logo {
+    width: 60px;
+}
+
+.navbar {
+    background-color: #ffffff; 
+}
+
+
+.nav-link {
+    color: #000000; 
+}
+.nav-link:hover {
+    color: #1e4ae9; 
+}
+
+.form-control {
+    border-radius: 20px;
+}

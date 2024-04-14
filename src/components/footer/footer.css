@@ -1,0 +1,23 @@
+.footer {
+    background-color: #f8f9fa; /* Color de fondo del footer */
+    color: #6c757d; /* Color del texto */
+}
+
+.footer a {
+    color: #6c757d; /* Color de los enlaces */
+}
+
+.footer a:hover {
+    color: #ff4081; /* Color de los enlaces al pasar el ratón */
+}
+
+.footer .btn-outline-success {
+    color: #fff; /* Color del texto del botón */
+    background-color: #ff4081; /* Color de fondo del botón */
+    border-color: #ff4081; /* Color del borde del botón */
+}
+
+.footer .btn-outline-success:hover {
+    background-color: #d81b60; /* Color de fondo del botón al pasar el ratón */
+    border-color: #d81b60; /* Color del borde del botón al pasar el ratón */
+}

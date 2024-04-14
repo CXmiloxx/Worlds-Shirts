@@ -1,0 +1,90 @@
+.registro-section {
+    background-color: #f0f0f0;
+    padding: 50px 0;
+}
+
+.registro-card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.registro-card-body {
+    padding: 40px;
+}
+
+.registro-title {
+    color: #333;
+    font-size: 32px;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.registro-label {
+    color: #333;
+    font-weight: bold;
+}
+
+.registro-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.registro-input.error {
+    border-color: red;
+}
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.registro-select {
+    width: calc(50% - 10px);
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.registro-btn {
+    background-color: #1e4ae9;
+    color: white;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.btn-toggle-password{
+    background-color: #1e4ae9;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px ;
+}
+.registro-btn:hover {
+    background-color: black;
+    border-radius: 50px;
+    transition: ease 1s;
+    box-shadow: rgba(0, 0, 0, 0.1);
+}
+
+.registro-login-link {
+    text-align: center;
+    margin-top: 20px;
+    color: #1e4ae9;
+}
+
+.registro-login-link a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+    margin: 20px;
+}
