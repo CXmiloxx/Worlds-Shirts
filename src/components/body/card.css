@@ -22,12 +22,17 @@ img {
 }
 
 .card2 h5 {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     margin-top: 10px;
 }
 
 .card2 p {
     text-align: justify;
     margin-bottom: 10px;
+}
+
+.precio{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 .card2 button {
@@ -55,4 +60,27 @@ body::before {
     width: 20px;
     background: linear-gradient(to right, rgba(79, 79, 79, 0.6) 0%, rgba(81, 209, 26, 0) 100%);
     z-index: 9999;
+}
+@media (max-width: 768px) {
+    .card2 {
+        width: calc(50% - 2%);
+    }
+}
+
+@media (max-width: 576px) {
+    .card2 {
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 8px; /* Box-shadow más suave */
+        width: calc(50% - 2%); /* Cards en filas de dos */
+    }
+    .card2 h5 {
+        font-size: 1.3rem;
+        color: #1e4ae9;
+    }
+    .card2 button{
+        background-color: #0d0d0d;
+    }
+    .card2 button:hover {
+        background-color: #1e4ae9;
+    }
+
 }

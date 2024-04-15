@@ -4,7 +4,7 @@ export default function Cards(props){
     return(
         <>
             <div className="card2">
-                <img src={props.items.image} alt="logo"/>
+                <img className='contImg' src={props.items.image} alt="logo"/>
                 <div>
                     <h5>{props.items.title}</h5>
                     <span className="precio">PRECIO : {props.items.precio}</span>
