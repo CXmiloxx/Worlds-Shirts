@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import './registro.css';
 import { Link } from 'react-router-dom';
-import Header from '../header/Header';
+import Nav from '../nav/Nav';
 import Footer from '../footer/footer';
 import colombiaData from "../colombia.json";
 
@@ -77,7 +77,7 @@ export default function Registro() {
 
     return (
         <div className='container'>
-            <Header />
+            <Nav />
             <form onSubmit={handleSubmit} ref={form}>
 
                 <section className="registro-section">
