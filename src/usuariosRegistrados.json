@@ -1,3 +1,82 @@
-{
-    
-}
+[
+    {
+        "id": 1,
+        "identificacion": "12345",
+        "nombres": "Juan",
+        "apellidos": "Guapacha",
+        "email": "111@gmail.com",
+        "direccion": "1111111111111111111",
+        "telefono": "1111111111",
+        "fechaNacimiento": "2024-04-03",
+        "password": "CxmiloGux1-",
+        "estado": "activo",
+        "rol": "Usuario",
+        "fecha_creación": "2024-04-28T22:51:48.843Z",
+        "departamento": "",
+        "ciudad": ""
+    },
+    {
+        "id": 2,
+        "identificacion": "11110",
+        "nombres": "juan camilo",
+        "apellidos": "guapacha largo",
+        "email": "1111@gmail.com",
+        "direccion": "1111111111111111111",
+        "telefono": "1283121111",
+        "fechaNacimiento": "2024-03-31",
+        "password": "CxmiloGux1-",
+        "estado": "activo",
+        "rol": "Usuario",
+        "fecha_creación": "2024-04-28T22:55:58.136Z",
+        "departamento": "",
+        "ciudad": ""
+    },
+    {
+        "id": 3,
+        "identificacion": "12345",
+        "nombres": "juan camilo",
+        "apellidos": "guapacha largo",
+        "email": "111222@gmail.com",
+        "direccion": "1111111111111111111",
+        "telefono": "1283121111",
+        "fechaNacimiento": "2024-04-02",
+        "password": "CxmiloGux1-",
+        "estado": "activo",
+        "rol": "Usuario",
+        "fecha_creación": "2024-04-28T22:56:51.741Z",
+        "departamento": "",
+        "ciudad": ""
+    },
+    {
+        "id": 4,
+        "identificacion": "12345444",
+        "nombres": "juan",
+        "apellidos": "111",
+        "email": "1141@gmail.com",
+        "direccion": "1111111111111111111",
+        "telefono": "3207512575",
+        "fechaNacimiento": "2024-04-09",
+        "password": "CxmiloGux1-",
+        "estado": "activo",
+        "rol": "Usuario",
+        "fecha_creación": "2024-04-28T23:16:15.059Z",
+        "departamento": "",
+        "ciudad": ""
+    },
+    {
+        "id": 5,
+        "identificacion": "12345222",
+        "nombres": "juan",
+        "apellidos": "111",
+        "email": "112221@gmail.com",
+        "direccion": "1111111111111111111",
+        "telefono": "1111111111",
+        "fechaNacimiento": "2024-04-09",
+        "password": "CxmiloGux1-",
+        "estado": "activo",
+        "rol": "Usuario",
+        "fecha_creación": "2024-04-29T00:24:24.894Z",
+        "departamento": "Cundinamarca",
+        "ciudad": "Carmen de Carupa"
+    }
+]

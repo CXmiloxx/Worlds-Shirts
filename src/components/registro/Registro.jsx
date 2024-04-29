@@ -1,41 +1,27 @@
-import { useRef, useState } from 'react';
-import './registro.css';
-import { Link } from 'react-router-dom';
-import Nav from '../nav/Nav';
-import Footer from '../footer/footer';
-import colombiaData from "../colombia.json";
+import { useRef, useState } from "react";
+import Swal from "sweetalert2";
+import "./registro.css";
+import colombia from "../colombia.json";
+import { Link } from "react-router-dom";
+import Header from "../nav/Nav";
+import Footer from "../footer/Footer";
 
 export default function Registro() {
-    const [ciudades, setCiudades] = useState([]);
-    const [showPassword, setShowPassword] = useState(false);
-    const [values, setValues] = useState({
-        identificacion: '',
-        nombres: '',
-        apellidos: '',
-        email: '',
-        direccion: '',
-        telefono: '',
-        fechaNacimiento: '',
-        password: '',
-        passRepeat: ''
-    });
-    const [errores, setErrores] = useState({
-        identificacion: false,
-        nombres: false,
-        apellidos: false,
-        email: false,
-        direccion: false,
-        telefono: false,
-        fechaNacimiento: false,
-        password: false,
-        passRepeat: false,
-        passwordComparacion: false,
-    });
-
     const form = useRef();
 
-    const validPassword = /^(?=.*[A-Z]).{8,}$/;
-    const validEmail = /^\w+([.-_+]?\w+)@\w+([.-]?\w+)(\.\w{2,10})+$/;
+    const [values, setValues] = useState({
+        identificacion: "",
+        nombres: "",
+        apellidos: "",
+        email: "",
+        direccion: "",
+        telefono: "",
+        fechaNacimiento: "",
+        password: "",
+        passRepeat: "",
+        departamento: "",
+        ciudad: "",
+    });
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -44,136 +30,245 @@ export default function Registro() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Aquí puedes realizar la lógica de envío del formulario
-        console.log('Formulario enviado');
+
+        // Validaciones
+        const validations = [
+            { field: "identificacion", min: 5, max: 10, message: "La identificación debe estar entre 5 y 10 dígitos" },
+            { field: "nombres", min: 3, message: "El nombre debe contener mínimo 3 caracteres" },
+            { field: "apellidos", min: 3, message: "El apellido debe contener mínimo 3 caracteres" },
+            { field: "email", validator: validateEmail, message: "Debe introducir una dirección de correo electrónico válida" },
+            { field: "direccion", min: 15, message: "La dirección debe contener mínimo 15 caracteres" },
+            { field: "telefono", min: 10, max: 10, message: "El teléfono debe ser de 10 números" },
+            { field: "fechaNacimiento", validator: value => value !== "", message: "Debe introducir una fecha de nacimiento" },
+            { field: "password", validator: validatePassword, message: "La contraseña no cumple con los requisitos mínimos" },
+            { field: "passRepeat", validator: value => value !== "", message: "Este campo no puede quedar vacío" },
+            { field: "password", validator: (value) => value === values.passRepeat, message: "Las contraseñas ingresadas no coinciden" }
+        ];
+
+        for (const { field, min, max, validator, message } of validations) {
+            const value = values[field];
+            if ((min && value.length < min) || (max && value.length > max) || (validator && !validator(value))) {
+                Swal.fire({ title: message, icon: "error" });
+                return;
+            }
+        }
+
+        // Envío de datos al servidor
+        fetch("http://localhost:3001/registro-usuario", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+            },
+            body: JSON.stringify(values),
+        })
+        .then((response) => {
+            if (response.status === 200) {
+                Swal.fire({ title: "Usuario creado con éxito", icon: "success" });
+                form.current.reset();
+                window.location.hash = "/login";
+            } else if (response.status === 400) {
+                response.json().then(data => {
+                    const errorType = data.errorType === 'email' ? `el correo ${values.email}` : `la identificación ${values.identificacion}`;
+                    Swal.fire({ title: `No fue posible crear el usuario porque ${errorType} ya está registrado`, icon: "warning" });
+                });
+            }
+        })
+        .catch(() => {
+            Swal.fire({ title: "No fue posible finalizar el proceso de registro por un error interno del servidor", icon: "error" });
+        });
     };
 
-    const validateForm = () => {
-        const newErrors = {
-            identificacion: values.identificacion.length < 5 || values.identificacion.length > 10,
-            nombres: values.nombres.length < 3,
-            apellidos: values.apellidos.length < 3,
-            email: !validEmail.test(values.email),
-            direccion: values.direccion.length < 15,
-            telefono: values.telefono.length !== 10,
-            fechaNacimiento: values.fechaNacimiento === '',
-            password: !validPassword.test(values.password),
-            passRepeat: values.passRepeat === '' || values.password !== values.passRepeat,
-            passwordComparacion: values.password !== values.passRepeat
-        };
-        setErrores(newErrors);
-        return !Object.values(newErrors).some(error => error);
-    };
-
-    const CambioDepartamento = (e) => {
-        const departamentoSeleccionado = e.target.value;
-        const ciudadesDepartamento = colombiaData.find((item) => item.departamento === departamentoSeleccionado)?.ciudades || [];
-        setCiudades(ciudadesDepartamento);
-    };
-
-    const togglePasswordVisibility = () => {
-        setShowPassword(!showPassword);
-    };
+    const validateEmail = (email) => /^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/.test(email);
+    
+    const validatePassword = (password) => /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/.test(password);
 
     return (
-        <div className='container'>
-            <Nav />
+        <div className="container">
+            <Header />
             <form onSubmit={handleSubmit} ref={form}>
+                <section className="vh-100 bg-image">
+                    <div className="container h-100">
+                        <div className="row d-flex justify-content-center align-items-center h-100">
+                            <div className="card">
+                                <div className="card-body p-5">
+                                    <h2 className="text-uppercase text-center mb-5">Registro</h2>
 
-                <section className="registro-section">
+                                    <div className="row">
+                                        <div className="form-outline mb-4 col-6">
+                                            <label className="form-label" htmlFor="form3Example1cg">
+                                                <strong>Identificación</strong>
+                                            </label>
+                                            <input
+                                                type="number"
+                                                id="form3Example0cg"
+                                                className="form-control"
+                                                name="identificacion"
+                                                placeholder="Deber estar entre 5 y 10 dígitos"
+                                                onChange={handleChange}
+                                            />
+                                        </div>
 
-                    <div className="registro-card">
-                        <div className="registro-card-body">
-                            <h2 className="registro-title">Registro</h2>
+                                        <div className="form-outline mb-4 col-6">
+                                            <label className="form-label" htmlFor="form3Example1cg">
+                                                <strong>Nombre</strong>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                id="form3Example1cg"
+                                                className="form-control"
+                                                name="nombres"
+                                                placeholder="Debe ser de mínimo tres caracteres"
+                                                onChange={handleChange}
+                                            />
+                                        </div>
+                                    </div>
 
-                            <div className="form-group">
-                                <label className="registro-label" htmlFor="identificacion">Identificación</label>
-                                <input type="number" id="identificacion" className={`registro-input ${errores.identificacion && 'error'}`} name='identificacion' placeholder='Deber estar entre 5 y 10 dígitos' onChange={handleChange} onClick={validateForm}/>
-                                {errores.identificacion && <p className="error-message">La identificación debe estar entre 5 y diez números</p>}
+                                    <div className="row">
+                                        <div className="form-outline mb-4 col-6">
+                                            <label className="form-label" htmlFor="form3Example1cg">
+                                                <strong>Apellido</strong>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                id="form3Example2cg"
+                                                className="form-control form-control-lg"
+                                                name="apellidos"
+                                                placeholder="Debe ser de mínimo tres caracteres"
+                                                onChange={handleChange}
+                                            />
+                                        </div>
+
+                                        <div className="form-outline mb-4 col-6">
+                                            <label className="form-label" htmlFor="form3Example3cg">
+                                                <strong>Email</strong>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                id="form3Example3cg"
+                                                className="form-control form-control-lg"
+                                                name="email"
+                                                placeholder="Debe ser un formato válido. Ejemplo: alguien@gmail.com"
+                                                onChange={handleChange}
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="row">
+                                        <div className="form-outline mb-4 col-6">
+                                            <label className="form-label" htmlFor="form3Example3cg">
+                                                <strong>Dirección</strong>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                id="form3Example4cg"
+                                                className="form-control form-control-lg"
+                                                name="direccion"
+                                                placeholder="Debe ser de mínimo quince caracteres"
+                                                onChange={handleChange}
+                                            />
+                                        </div>
+
+                                        <div className="form-outline mb-4 col-6">
+                                            <label className="form-label" htmlFor="form3Example3cg">
+                                                <strong>Teléfono</strong>
+                                            </label>
+                                            <input
+                                                type="number"
+                                                id="form3Example5cg"
+                                                className="form-control form-control-lg"
+                                                name="telefono"
+                                                placeholder="Debe ser de diez números"
+                                                onChange={handleChange}
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="form-outline mb-4">
+                                        <label className="form-label" htmlFor="form3Example3cg">
+                                            <strong>Fecha de nacimiento</strong>
+                                        </label>
+                                        <input
+                                            type="date"
+                                            id="form3Example6cg"
+                                            className="form-control form-control-lg"
+                                            name="fechaNacimiento"
+                                            placeholder="Debe ser de diez números"
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+
+                                    <div className="row">
+                                        <div className="form-outline mb-4 col-6">
+                                            <label className="form-label" htmlFor="form3Example3cg">
+                                                <strong>Departamento residencia</strong>
+                                            </label>
+                                            <br></br>
+                                            <select name="departamento" onChange={handleChange} className="departamento">
+                                                <option>Seleccione:</option>
+                                                {colombia.map((depto, index) => (
+                                                    <option key={index} value={depto.departamento}>
+                                                        {depto.departamento}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                        <div className="form-outline mb-4 col-6">
+                                            <label className="form-label" htmlFor="form3Example3cg">
+                                                <strong>Ciudad o municipio Residencia</strong>
+                                            </label>
+                                            <br></br>
+                                            <select name="ciudad" onChange={handleChange} className="ciudades">
+                                                <option>Seleccione:</option>
+                                                {values.departamento &&
+                                                    colombia.find((depto) => depto.departamento === values.departamento).ciudades.map((ciudad, index) => (
+                                                        <option key={index} value={ciudad}>
+                                                            {ciudad}
+                                                        </option>
+                                                    ))}
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div className="form-outline mb-4">
+                                        <label className="form-label" htmlFor="form3Example4cg">
+                                            <strong>Contraseña</strong>
+                                        </label>
+                                        <input
+                                            type="password"id="form3Example7cg"className="form-control form-control-lg"name="password"
+                                            placeholder="Ingrese password"onChange={handleChange}
+                                        />
+                                    </div>
+
+                                    <div className="form-outline mb-4">
+                                        <label className="form-label" htmlFor="form3Example4cdg">
+                                            <strong>Repeta la  Contraseña</strong>
+                                        </label>
+                                        <input
+                                            type="password"
+                                            id="form3Example8cdg"
+                                            className="form-control form-control-lg"
+                                            name="passRepeat"
+                                            placeholder="Reingrese password"
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+
+                                    <div className="d-flex justify-content-center">
+                                        <button type="submit" className="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Register</button>
+                                    </div>
+
+                                    <p className="text-center text-muted mt-5 mb-0">
+                                        Ya tienes una cuenta creada ? {" "}
+                                        <Link to="/login" className="fw-bold text-body">Iniciar sesión</Link>
+                                    </p>
+                                </div>
                             </div>
-
-                            <div className="form-group">
-                                <label className="registro-label" htmlFor="nombres">Nombre</label>
-                                <input type="text" id="nombres" className={`registro-input ${errores.nombres && 'error'}`} name='nombres' placeholder='Debe ser de mínimo tres caracteres' onChange={handleChange} onClick={validateForm}/>
-                                {errores.nombres && <p className="error-message">El nombre debe contener mínimo 3 caracteres</p>}
-                            </div>
-
-                            <div className="form-group">
-                                <label className="registro-label" htmlFor="apellidos">Apellido</label>
-                                <input type="text" id="apellidos" className={`registro-input ${errores.apellidos && 'error'}`} name='apellidos' placeholder='Debe ser de mínimo tres caracteres' onChange={handleChange} onClick={validateForm}/>
-                                {errores.apellidos && <p className="error-message">El apellido debe contener mínimo 3 caracteres</p>}
-                            </div>
-
-                            <div className="form-group">
-                                <label className="registro-label" htmlFor="email">Email</label>
-                                <input type="text" id="email" className={`registro-input ${errores.email && 'error'}`} name='email' placeholder='Debe ser un formato válido. Ejemplo: alguien@gmail.com' onChange={handleChange} onClick={validateForm}/>
-                                {errores.email && <p className="error-message">El email debe tener la estructura de una dirección de correo electrónico. Verbigracia: alguien@gmail.com</p>}
-                            </div>
-
-                            <div className="form-group">
-                                <label className="registro-label" htmlFor="direccion">Dirección</label>
-                                <input type="text" id="direccion" className={`registro-input ${errores.direccion && 'error'}`} name='direccion' placeholder='Debe ser de mínimo quince caracteres' onChange={handleChange} onClick={validateForm}/>
-                                {errores.direccion && <p className="error-message">La dirección debe contener mínimo 15 caracteres</p>}
-                            </div>
-
-                            <div className="form-group">
-                                <label className="registro-label" htmlFor="telefono">Teléfono</label>
-                                <input type="number" id="telefono" className={`registro-input ${errores.telefono && 'error'}`} name='telefono' placeholder='Debe ser de diez números' onChange={handleChange} onClick={validateForm}/>
-                                {errores.telefono && <p className="error-message">El teléfono debe ser de 10 números</p>}
-                            </div>
-
-                            <div className="form-group">
-                                <label className="registro-label" htmlFor="fechaNacimiento">Fecha de nacimiento</label>
-                                <input type="date" id="fechaNacimiento" className={`registro-input ${errores.fechaNacimiento && 'error'}`} name='fechaNacimiento' placeholder='Debe ser de diez números' onChange={handleChange} onClick={validateForm}/>
-                                {errores.fechaNacimiento && <p className="error-message">Debe introducir una fecha de nacimiento</p>}
-                            </div>
-
-                            <div className="form-group">
-                                <label className="registro-label" htmlFor="password">Password</label>
-                                <input type={showPassword ? "text" : "password"} id="password" className={`registro-input ${errores.password && 'error'}`} name='password' onChange={handleChange} onClick={validateForm}/>
-                                {errores.password && <p className="error-message">La contraseña no cumple con los requisitos mínimos solicitados(Mínimo 8 caracteres de longitud. Al menos una letra mayúscula. Al menos una letra minúscula. Al menos un número. Al menos un caracter especial).</p>}
-                            </div>
-
-                            <div className="form-group">
-                                <label className="registro-label" htmlFor="passRepeat">Repite tu contraseña</label>
-                                <input type="password" id="passRepeat" className={`registro-input ${errores.passRepeat && 'error'}`} name='passRepeat' onChange={handleChange} onClick={validateForm}/>
-                                {errores.passRepeat && <p className="error-message">Este campo no puede quedar vacío.</p>}
-                                {errores.passwordComparacion && <p className="error-message">Las contraseñas ingresadas no coinciden</p>}
-                                <button type="button" className="btn-toggle-password" onClick={togglePasswordVisibility}>{showPassword ? "Ocultar" : "Mostrar"}</button>
-                            </div>
-
-                            <div className="select-container">
-                                <select onChange={CambioDepartamento} className="registro-select">
-                                    <option value="">Seleccione un departamento</option>
-                                    {colombiaData.map((item) => (
-                                        <option key={item.departamento} value={item.departamento}>
-                                            {item.departamento}
-                                        </option>
-                                    ))}
-                                </select>
-
-                                <select className="registro-select">
-                                    <option value="">Seleccione una ciudad</option>
-                                    {ciudades.map((ciudad) => (
-                                        <option key={ciudad} value={ciudad}>
-                                            {ciudad}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-
-                            <div className="d-flex justify-content-center">
-                                <button type='submit' className="registro-btn">Registrar</button>
-                            </div>
-
-                            <p className="registro-login-link">¿Ya tienes una cuenta? <Link to='/login' className="fw-bold text-body">Inicia sesión aquí</Link></p>
-
                         </div>
                     </div>
-
                 </section>
             </form>
             <Footer />
         </div>
-    )
+    );
 }

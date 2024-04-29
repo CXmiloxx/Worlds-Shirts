@@ -1,0 +1,75 @@
+/* Estilos generales del login */
+.gradient-custom {
+    background-image: url("./fondo2.jpg");
+}
+
+.card {
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+    padding: 20px; /* Reduce el padding para hacer la tarjeta más compacta */
+}
+
+.card-title {
+    font-size: 24px; /* Reduce el tamaño del título */
+    font-weight: bold;
+    color: #f8f9fa; /* Color de texto blanco */
+    margin-bottom: 10px;
+}
+
+.card-text {
+    font-size: 16px;
+    color: #ced4da; /* Color de texto más claro */
+    margin-bottom: 20px;
+}
+
+.form-control {
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: #343a40; /* Color de fondo oscuro para los campos de entrada */
+    color: #f8f9fa; /* Color de texto blanco */
+}
+
+.form-select {
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: #343a40; /* Color de fondo oscuro para el select */
+    color: #f8f9fa; /* Color de texto blanco */
+}
+
+.btn-outline-light {
+    border-radius: 8px;
+    font-size: 18px;
+    padding: 12px 24px;
+}
+
+.social-icon {
+    width: 40px;
+    height: 40px;
+    margin: 0 10px;
+}
+
+.small {
+    font-size: 14px;
+}
+
+/* Estilos para la imagen de fondo */
+.vh-100 {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Estilos para dispositivos pequeños */
+@media (max-width: 768px) {
+    .card {
+        margin-left:10px;
+        max-width: 95%;
+    }
+}

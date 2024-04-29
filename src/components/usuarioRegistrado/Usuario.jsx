@@ -1,7 +1,8 @@
-import './Nav.css';
 import { Link } from 'react-router-dom';
 
-function Nav() {
+import usario from "../../usuariosRegistrados.json";
+
+function usuarioRegistrado() {
     return (
         <div className='contenedor'>
             <nav className="navbar navbar-expand-lg ">
@@ -35,6 +36,9 @@ function Nav() {
                             <li className="nav-item">
                                 <Link to="/login" className="nav-link">Iniciar sesión</Link>
                             </li>
+                            <li className="nav-item">
+                                <p className='nombreUsuario'>{usario.map}</p>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -43,4 +47,4 @@ function Nav() {
     );
 }
 
-export default Nav;
+export default usuarioRegistrado;
