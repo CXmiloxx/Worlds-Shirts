@@ -1,5 +1,4 @@
-/* Resto del código */
-
+import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Cookies from 'universal-cookie';
 import Swal from 'sweetalert2';
@@ -10,7 +9,7 @@ const LoginUser = () => {
     const [values, setValues] = useState({
         email: "",
         password: "",
-        rol: "" // Agrega el campo "rol" a los valores iniciales del estado
+        rol: "" 
     });
 
     const handleChange = (e) => {
@@ -47,27 +46,45 @@ const LoginUser = () => {
             headers: { "Content-Type": "application/json", "Accept": "application/json" },
             body: JSON.stringify(values)
         })
-        .then(response => {
-            if (response.status === 200) {
-                cookies.set('email', values.email, {
-                    secure: true,
-                    sameSite: 'None',
-                    path: '/'
-                });
-                window.location.hash = (values.rol === "Usuario") ? '/' : '/usuarios-registrados';
-            } else {
-                Swal.fire({
-                    title: "Las credenciales ingresadas no son correctas",
-                    icon: "error"
-                });
-            }
-        })
-        .catch(() => {
-            Swal.fire({
-                title: "No se puede iniciar sesión por un problema en el servidor",
-                icon: "error"
-            });
-        });
+        fetch("http://localhost:3001/login", {
+    method: 'POST',
+    headers: { "Content-Type": "application/json", "Accept": "application/json" },
+    body: JSON.stringify(values)
+})
+.then(response => {
+    if (response.status === 200) {
+        return response.json(); // Convertir la respuesta a JSON
+    } else {
+        throw new Error('Credenciales incorrectas');
+    }
+})
+.then(data => {
+    // Establecer la cookie del email
+    cookies.set('email', values.email, {
+        secure: true,
+        sameSite: 'None',
+        path: '/'
+    });
+
+    // Establecer la cookie del ID del usuario
+    cookies.set('userId', data.userId, {
+        secure: true,
+        sameSite: 'None',
+        path: '/'
+    });
+
+    // Redireccionar a la página correspondiente
+    window.location.hash = (values.rol === "Usuario") ? '/sesion-iniciada' : '/usuarios-registrados';
+})
+.catch(error => {
+    // Manejar errores
+    console.error('Error al iniciar sesión:', error);
+    Swal.fire({
+        title: "Las credenciales ingresadas no son correctas",
+        icon: "error"
+    });
+});
+
     };
 
     useEffect(() => {
@@ -114,7 +131,7 @@ const LoginUser = () => {
                                         </div>
                                     </div>
                                     <div>
-                                        <p className="mb-0">No tienes una cuenta creada? <a href="#!" className="text-white-50 fw-bold">Registrate</a></p>
+                                        <p className="mb-0">No tienes una cuenta creada? <Link to="/registro" className="text-white-50 fw-bold">Registrate </Link></p>
                                     </div>
                                 </div>
                             </div>

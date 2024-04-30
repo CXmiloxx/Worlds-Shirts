@@ -4,8 +4,9 @@ import Registro from './components/registro/Registro';
 import NotFound from './NotFountd';
 import LoginUser from './components/login/LoginUser';
 
-function AppRouter(){
+import Usuario from "./components/usuarioRegistrado/Usuario";
 
+function AppRouter(){
 
     return(
 
@@ -14,6 +15,7 @@ function AppRouter(){
                 <Route exact path='/' element={<Inicio/>} />
                 <Route exact path='/registro' element={<Registro/>} />
                 <Route exact path='/login' element={<LoginUser/>} />
+                <Route exact path='/sesion-iniciada' element={<Usuario/>} />
                 <Route exact path='*' element={<NotFound/>} />
             </Routes>
         </HashRouter>

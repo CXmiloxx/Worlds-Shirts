@@ -1,0 +1,29 @@
+.userDetails {
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.label {
+    font-weight: bold;
+    color: #333;
+}
+.cerras-sesion{
+    background-color: red;
+    border-radius: 18px;
+    padding: 10px;
+    margin-bottom: 25px;
+    bottom: unset;
+    border: none;
+    color: black;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: block;
+
+}
+.cerras-sesion:hover{
+    transition: ease 0.5s;
+    background-color: black;
+    color: white;
+}

@@ -58,8 +58,8 @@ const controller = {
 
             for (var x of users) {
                 if (x.email === req.body.email && x.password === req.body.password && x.rol === req.body.rol) {
-                    res.status(200).send("Ok")
-                    return
+                    res.status(200).json({ userId: x.id });
+                    return 
                 }
             }
             res.status(400).send('Error')
