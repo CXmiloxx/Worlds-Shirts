@@ -15,7 +15,7 @@ function AppRouter(){
                 <Route exact path='/' element={<Inicio/>} />
                 <Route exact path='/registro' element={<Registro/>} />
                 <Route exact path='/login' element={<LoginUser/>} />
-                <Route exact path='/sesion-iniciada' element={<Usuario/>} />
+                <Route exact path='/iniciada' element={<Usuario/>} />
                 <Route exact path='*' element={<NotFound/>} />
             </Routes>
         </HashRouter>

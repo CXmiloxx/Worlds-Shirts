@@ -6,6 +6,7 @@ import Cookies from 'universal-cookie';
 import { useState, useEffect } from 'react';
 import user from "../../usuariosRegistrados.json";
 import "./Usuario.css";
+import SesionExpired from '../sesionExpired/SesionExpirent';
 
 const cookies = new Cookies();
 
@@ -29,6 +30,7 @@ function UsuarioRegistrado() {
         }
     }, []);
     function Cerrar() {
+        
         Swal.fire({
             title: "Estas seguro de cerrar sesión",
             icon: "error",
@@ -82,6 +84,7 @@ function UsuarioRegistrado() {
             </nav>
             <CardList />
             <Footer />
+            <SesionExpired/>
         </div>
     );
 }

@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import Cookies from 'universal-cookie';
 import Swal from 'sweetalert2';
 import "./Login.css"
+import Google from '../google/Google';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const LoginUser = () => {
     const cookies = new Cookies();
@@ -74,7 +76,7 @@ const LoginUser = () => {
     });
 
     // Redireccionar a la página correspondiente
-    window.location.hash = (values.rol === "Usuario") ? '/sesion-iniciada' : '/usuarios-registrados';
+    window.location.hash = (values.rol === "Usuario") ? '/iniciada' : '/usuarios-registrados';
 })
 .catch(error => {
     // Manejar errores
@@ -127,7 +129,12 @@ const LoginUser = () => {
                                         <div className="d-flex justify-content-center text-center mt-3 pt-1">
                                             <a href="#!" className="text-white"><i className="bi bi-github fa-lg"></i></a>
                                             <a href="#!" className="text-white"><i className="bi bi-facebook fa-lg mx-4 px-2"></i></a>
-                                            <a href="#!" className="text-white"><i className="bi bi-google fa-lg"></i></a>
+                                        </div>
+                                        
+                                        <div className="d-flex justify-content-center text-center mt-3 pt-1">
+                                        <GoogleOAuthProvider clientId="5171371451-cnim6238rgc5oitlsstdapuhicgbcef4.apps.googleusercontent.com">
+                                            <Google />
+                                            </GoogleOAuthProvider>
                                         </div>
                                     </div>
                                     <div>
