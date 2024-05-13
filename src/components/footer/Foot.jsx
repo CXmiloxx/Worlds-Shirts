@@ -1,5 +1,3 @@
-import './Footer.css';
-
 function Foot() {
     return (
         <footer className="text-center text-lg-start bg-light text-muted">
