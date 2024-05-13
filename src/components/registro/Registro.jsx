@@ -4,7 +4,7 @@ import "./registro.css";
 import colombia from "../colombia.json";
 import { Link } from "react-router-dom";
 import Header from "../nav/Nav";
-import Footer from "../footer/Footer";
+import Foot from "../footer/Foot";
 
 export default function Registro() {
     const form = useRef();
@@ -268,7 +268,7 @@ export default function Registro() {
                     </div>
                 </section>
             </form>
-            <Footer />
+            <Foot/>
         </div>
     );
 }

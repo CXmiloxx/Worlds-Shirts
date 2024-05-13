@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import Footer from '../footer/Footer';
+import Foot from '../footer/Foot';
 import CardList from '../body/CardList';
 import Swal from 'sweetalert2';
 import Cookies from 'universal-cookie';
@@ -70,7 +70,7 @@ function UsuarioRegistrado() {
                 </div>
             </nav>
             <CardList />
-            <Footer />
+            <Foot/>
             <SesionExpired />
         </div>
     );
