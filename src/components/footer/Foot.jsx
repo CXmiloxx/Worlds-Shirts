@@ -1,6 +1,6 @@
 import './Footer.css';
 
-function Footer() {
+function Foot() {
     return (
         <footer className="text-center text-lg-start bg-light text-muted">
             <section className="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
@@ -60,4 +60,4 @@ function Footer() {
     );
 }
 
-export default Footer;
+export default Foot;

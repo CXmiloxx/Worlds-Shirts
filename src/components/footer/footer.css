@@ -1,23 +1,23 @@
 .footer {
-    background-color: #f8f9fa; /* Color de fondo del footer */
-    color: #6c757d; /* Color del texto */
+    background-color: #f8f9fa; 
+    color: #6c757d;
 }
 
 .footer a {
-    color: #6c757d; /* Color de los enlaces */
+    color: #6c757d;
 }
 
 .footer a:hover {
-    color: #ff4081; /* Color de los enlaces al pasar el ratón */
+    color: #ff4081;
 }
 
 .footer .btn-outline-success {
-    color: #fff; /* Color del texto del botón */
-    background-color: #ff4081; /* Color de fondo del botón */
-    border-color: #ff4081; /* Color del borde del botón */
+    color: #fff; 
+    background-color: #ff4081; 
+    border-color: #ff4081; 
 }
 
 .footer .btn-outline-success:hover {
-    background-color: #d81b60; /* Color de fondo del botón al pasar el ratón */
-    border-color: #d81b60; /* Color del borde del botón al pasar el ratón */
+    background-color: #d81b60;  
+    border-color: #d81b60; 
 }
