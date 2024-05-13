@@ -3,34 +3,16 @@ import Footer from '../footer/Footer';
 import CardList from '../body/CardList';
 import Swal from 'sweetalert2';
 import Cookies from 'universal-cookie';
-import { useState, useEffect } from 'react';
-import user from "../../usuariosRegistrados.json";
 import "./Usuario.css";
 import SesionExpired from '../sesionExpired/SesionExpirent';
 
-const cookies = new Cookies();
-
 function UsuarioRegistrado() {
-    const [userData, setUserData] = useState(null);
+    const cookies = new Cookies();
+    const email = cookies.get('email');
+    const nombres = cookies.get('nombres');
+    const apellidos = cookies.get('apellidos');
 
-    useEffect(() => {
-        const userId = cookies.get('userId');
-        if(userId){
-            const foundUser = user.find(user => user.id === userId);
-            if(foundUser){
-                setUserData(foundUser);
-            }else{
-                Swal.fire({
-                    title: "No se puede encontro el usuario  en el servidor",
-                    icon: "error"
-                })
-            }
-        }else{
-            window.location.href = "/";
-        }
-    }, []);
     function Cerrar() {
-        
         Swal.fire({
             title: "Estas seguro de cerrar sesión",
             icon: "error",
@@ -39,6 +21,9 @@ function UsuarioRegistrado() {
             cancelButtonText: "Cancelar",
         }).then((result) => {
             if (result.isConfirmed) {
+                cookies.remove('email');
+                cookies.remove('nombres');
+                cookies.remove('apellidos');
                 window.location.href = "/";
             }
         });
@@ -47,11 +32,13 @@ function UsuarioRegistrado() {
     return (
         <div className='contenedor'>
             <div className="userData">
-                {userData && (
+                {email || nombres && apellidos ? (
                     <div className="userDetails">
-                        <p><span className="label">Nombre:</span> {userData.nombres} {userData.apellidos}</p>
-                        <p><span className="label">Correo:</span> {userData.email}</p>
+                        <p><span className="label">Correo:</span> {email}</p>
+                        <p><span className="label">Nombre:</span> {nombres} {apellidos}</p>
                     </div>
+                ) : (
+                    <p>No se encontró información del usuario.</p>
                 )}
             </div>
             <nav className="navbar navbar-expand-lg">
@@ -84,7 +71,7 @@ function UsuarioRegistrado() {
             </nav>
             <CardList />
             <Footer />
-            <SesionExpired/>
+            <SesionExpired />
         </div>
     );
 }

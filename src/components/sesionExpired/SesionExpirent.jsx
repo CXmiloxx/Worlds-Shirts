@@ -13,13 +13,12 @@ function SesionExpired(){
             icon: "info"
         })
     }
+    // eslint-disable-next-line no-unused-vars
     const getRemainingTime = useIdleTimer({
         onIdle,
         timeout,
-        throttle: 500
+        throttle: 1000
     })
-    console.log(getRemainingTime);
-
     return (
         <div>
         </div>
