@@ -79,6 +79,12 @@ const LoginUser = () => {
                         sameSite: 'None',
                         path: '/'
                     });
+
+                    cookies.set('imageUrl', res.imageUrl, {
+                        secure: true,
+                        sameSite: 'None',
+                        path: '/'
+                    });
                     window.location.hash = (values.rol === "Usuario") ? '/iniciada' : '/usuarios-registrados';
                 }
             })
