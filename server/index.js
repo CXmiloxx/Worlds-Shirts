@@ -5,6 +5,8 @@ const app = express();
 const cors = require("cors");
 // eslint-disable-next-line no-undef
 const bodyParser = require("body-parser");
+// eslint-disable-next-line no-undef
+const axios = require("axios");
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
@@ -12,13 +14,20 @@ app.use(bodyParser.json());
 app.use(cors());
 
 app.get("/", (req, res) => {
-  res.send("Saludando desde el BackEnd");
+  let config = {
+    method: "GET",
+    url: "https://api.jsonbin.io/v3/b/6654d659ad19ca34f87015ea",
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
+  };
+  axios(config).then((result) => {
+    res.send(result.data.record);
+  });
 });
 
 // eslint-disable-next-line no-undef
 const user = require("./controller/userController");
 app.use("/registro-usuario", user.register);
-app.use("/login", user.login);
+//app.use("/login", user.login);
 
 const PORT = 3001;
 app.listen(PORT, () => {
