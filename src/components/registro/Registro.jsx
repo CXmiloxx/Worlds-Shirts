@@ -8,7 +8,8 @@ import Foot from "../footer/Foot";
 
 export default function Registro() {
     const form = useRef();
-
+    // eslint-disable-next-line no-undef
+    let URL = process.env.REACT_APP_ENVIROMENT
     const [values, setValues] = useState({
         identificacion: "",
         nombres: "",
@@ -53,8 +54,16 @@ export default function Registro() {
             }
         }
 
-        // Envío de datos al servidor
-        fetch("http://localhost:3001/registro-usuario", {
+        // // Envío de datos al servidor
+        // fetch("http://localhost:3001/registro-usuario", {
+        //     method: "POST",
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //         Accept: "application/json",
+        //     },
+        //     body: JSON.stringify(values),
+        // })
+        fetch(`${URL}/registro-usuario`,{
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

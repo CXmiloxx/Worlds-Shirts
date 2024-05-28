@@ -20,7 +20,7 @@ app.get("/", (req, res) => {
     headers: { "Content-Type": "application/json", 
                 "X-Master-Key":
                   "$2a$10$KOXlto6M6yRUPHJtNyxguOIzbIHp4HfSNH0pp09eoC3SxNJjqr9wq",
-                },
+              },
   };
   axios(config).then((result) => {
     res.send(result.data.record);
