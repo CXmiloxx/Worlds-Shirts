@@ -227,6 +227,7 @@ app.use(cors());
             rol: req.body.rol,
             fecha_creacion: new Date(),
             ciudad: req.body.ciudad,
+            departamento : req.body.departamento
         };
         if (result.data.record.length === 0) {
             result.data.record.push(usuarioNuevo);

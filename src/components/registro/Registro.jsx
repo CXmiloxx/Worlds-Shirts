@@ -8,8 +8,7 @@ import Foot from "../footer/Foot";
 
 export default function Registro() {
     const form = useRef();
-    // eslint-disable-next-line no-undef
-    let URL = process.env.REACT_APP_ENVIROMENT
+    const URL = import.meta.env.VITE_APP_ENVIROMENT;
     const [values, setValues] = useState({
         identificacion: "",
         nombres: "",
@@ -75,6 +74,7 @@ export default function Registro() {
             if (response.status === 200) {
                 Swal.fire({ title: "Usuario creado con éxito", icon: "success" });
                 form.current.reset();
+                
                 window.location.hash = "/login";
             } else if (response.status === 400) {
                 response.json().then(data => {
