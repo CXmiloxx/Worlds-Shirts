@@ -17,7 +17,10 @@ app.get("/", (req, res) => {
   let config = {
     method: "GET",
     url: "https://api.jsonbin.io/v3/b/6654d659ad19ca34f87015ea",
-    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    headers: { "Content-Type": "application/json", 
+                "X-Master-Key":
+                  "$2a$10$KOXlto6M6yRUPHJtNyxguOIzbIHp4HfSNH0pp09eoC3SxNJjqr9wq",
+                },
   };
   axios(config).then((result) => {
     res.send(result.data.record);
