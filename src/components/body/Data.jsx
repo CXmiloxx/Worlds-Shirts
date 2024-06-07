@@ -22,7 +22,9 @@ export default [
         fechaLanzamiento:"2023",
         description: "Camiseta local temporada 23-24",
         image: madrid,
-        precio:"$1000"
+        precio: 234000,
+        precioCarrito : 234000,
+        cantidad : 1
     },
 
     {
@@ -32,7 +34,9 @@ export default [
         fechaLanzamiento:"2023",
         description: "Camiseta local temporada 23-24",
         image: liverpool,
-        precio:"$25000"
+        precio:10000,
+        precioCarrito : 10000,
+        cantidad : 1
     },
 
     {
@@ -42,7 +46,9 @@ export default [
         fechaLanzamiento:"2023",
         description: "Camiseta local temporada 23-24",
         image: bayer,
-        precio:"$25000"
+        precio:10000,
+        precioCarrito : 10000,
+        cantidad : 1
     },
 
     {
@@ -52,7 +58,9 @@ export default [
         fechaLanzamiento:"2023",
         description: "Camiseta local temporada 23-24",
         image: barcelona,
-        precio:"$25000"
+        precio:10000,
+        precioCarrito : 10000,
+        cantidad : 1
     },
 
     {
@@ -62,7 +70,9 @@ export default [
         fechaLanzamiento:"2023",
         description: "Camiseta local temporada 23-24",
         image: city,
-        precio:"$25000"
+        precio:10000,
+        precioCarrito : 10000,
+        cantidad : 1
     },
 
     {
@@ -72,7 +82,9 @@ export default [
         fechaLanzamiento:"2023",
         description: "Camiseta local temporada 23-24",
         image: United,
-        precio:"$25000"
+        precio:10000,
+        precioCarrito : 10000,
+        cantidad : 1
     },
 
     {
@@ -82,7 +94,9 @@ export default [
         fechaLanzamiento:"2023",
         description: "Camiseta local temporada 23-24",
         image: brasil,
-        precio:"$25000"
+        precio:10000,
+        precioCarrito : 10000,
+        cantidad : 1
     },
 
     {
@@ -92,7 +106,9 @@ export default [
         fechaLanzamiento:"2023",
         description: "Camiseta local temporada 23-24",
         image: milan,
-        precio:"$25000"
+        precio:10000,
+        precioCarrito : 10000,
+        cantidad : 1
     },
 
     {
@@ -102,7 +118,9 @@ export default [
         fechaLanzamiento:"2023",
         description: "Camiseta local temporada 23-24",
         image: napoli,
-        precio:"$25000"
+        precio:10000,
+        precioCarrito : 10000,
+        cantidad : 1
     },
 
     {
@@ -112,7 +130,9 @@ export default [
         fechaLanzamiento:"2023",
         description: "Camiseta local temporada 23-24",
         image: paris,
-        precio:"$25000"
+        precio:10000,
+        precioCarrito : 10000,
+        cantidad : 1
     },
 
     {
@@ -122,7 +142,9 @@ export default [
         fechaLanzamiento:"2023",
         description: "Camiseta local temporada 23-24",
         image: roma,
-        precio:"$25000"
+        precio:140000,
+        precioCarrito : 140000,
+        cantidad : 1
     },
 
     {
@@ -132,7 +154,9 @@ export default [
         fechaLanzamiento:"2023",
         description: "Camiseta local temporada 23-24",
         image: arsenal,
-        precio:"$25000"
+        precio:35000,
+        precioCarrito : 35000,
+        cantidad : 1
     },
 
     {
@@ -142,7 +166,9 @@ export default [
         fechaLanzamiento:"2023",
         description: "Camiseta local temporada 23-24",
         image: juventus,
-        precio:"$25000"
+        precio:23000,
+        precioCarrito : 23000,
+        cantidad : 1
     },
     
     {
@@ -152,7 +178,9 @@ export default [
         fechaLanzamiento:"2023",
         description: "Camiseta local temporada 23-24",
         image: atletico,
-        precio:"$25000"
+        precio:10000,
+        precioCarrito : 10000,
+        cantidad : 1
     }
 
 
