@@ -2,8 +2,8 @@ import Cards from './Cards';
 import data from './Data';
 
 function CardList() {
-    const cards = data.map(items => (
-        <Cards key={items.id} items={items} />
+    const cards = data.map(productos => (
+        <Cards key={productos.id} productos={productos} />
     ));
 
     return (

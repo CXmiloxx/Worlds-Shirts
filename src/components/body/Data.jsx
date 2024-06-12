@@ -5,14 +5,15 @@ import barcelona from  '../img/cBarca.jpg';
 import city from '../img/cCity.jpg';
 import United from '../img/cUnited.jpg';
 import brasil from '../img/cBrasil.jpg';
-import milan from '../img/cMilan.jpg';
+import milan from '../img/cMilan.png';
 import napoli from '../img/cNapoli.jpg';
 import paris from '../img/cParis.jpg';
 import roma from '../img/cRoma.jpg';
 import atletico from '../img/cAtletico.jpg';
 import arsenal from '../img/cArsenal.jpg';
 import juventus from '../img/cJuve.jpg';
-
+import ajax from "../img/cAjax.png";
+import interMilan from "../img/cInterMilan.jpg";
 
 export default [
     {
@@ -30,7 +31,7 @@ export default [
     {
         id:2,
         title: "Camisa del Liverpool",
-        autor: "Adidas",
+        autor: "Nike",
         fechaLanzamiento:"2023",
         description: "Camiseta local temporada 23-24",
         image: liverpool,
@@ -41,7 +42,7 @@ export default [
 
     {
         id:3,
-        title: "Camisa del Bayer",
+        title: "Camisa del Bayer Munich",
         autor: "Adidas",
         fechaLanzamiento:"2023",
         description: "Camiseta local temporada 23-24",
@@ -53,8 +54,8 @@ export default [
 
     {
         id:4,
-        title: "Camisa del Barca",
-        autor: "Adidas",
+        title: "Camisa del F.C Barcelona ",
+        autor: "Nike",
         fechaLanzamiento:"2023",
         description: "Camiseta local temporada 23-24",
         image: barcelona,
@@ -101,13 +102,13 @@ export default [
 
     {
         id:8,
-        title: "Camisa del Milan",
-        autor: "Nike",
+        title: "Camisa del A.C Milan",
+        autor: "Score Draw",
         fechaLanzamiento:"2023",
-        description: "Camiseta local temporada 23-24",
+        description: "Camiseta local temporada 88-89",
         image: milan,
-        precio:10000,
-        precioCarrito : 10000,
+        precio:450000,
+        precioCarrito : 450000,
         cantidad : 1
     },
 
@@ -125,20 +126,20 @@ export default [
 
     {
         id:10,
-        title: "Camisa del Paris",
+        title: "Camisa del Paris Saint Germain",
         autor: "Nike",
         fechaLanzamiento:"2023",
         description: "Camiseta local temporada 23-24",
         image: paris,
-        precio:10000,
-        precioCarrito : 10000,
+        precio:145000,
+        precioCarrito : 145000,
         cantidad : 1
     },
 
     {
         id:11,
         title: "Camisa del Roma",
-        autor: "Nike",
+        autor: "Adidas",
         fechaLanzamiento:"2023",
         description: "Camiseta local temporada 23-24",
         image: roma,
@@ -181,7 +182,27 @@ export default [
         precio:10000,
         precioCarrito : 10000,
         cantidad : 1
+    },
+    {
+        id:15,
+        title: "Camisa del Inter de Milan",
+        autor: "Nike",
+        fechaLanzamiento:"2023",
+        description: "Camiseta local temporada 23-24",
+        image: interMilan,
+        precio:250000,
+        precioCarrito : 250000,
+        cantidad : 1
+    },
+    {
+        id:16,
+        title: "Camisa del Ajax de Amsterdam",
+        autor: "Adidas",
+        fechaLanzamiento:"2023",
+        description: "Camiseta local temporada 23-24",
+        image: ajax,
+        precio:340000,
+        precioCarrito : 340000,
+        cantidad : 1
     }
-
-
 ]

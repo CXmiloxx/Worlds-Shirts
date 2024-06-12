@@ -1,38 +1,44 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { dataContext } from "../context/DataContext";
 import CarritoVacio from './CarritoVacio';
+import { Link } from 'react-router-dom';
 
 function CarritoElements() {
     const { productosCarrito, setProductosCarrito } = useContext(dataContext);
+    const [total, setTotal] = useState(0);
 
-    const eliminarProducto = (id) => {
-        const productoFiltrado = productosCarrito.filter((producto) => producto.id !== id);
-        setProductosCarrito(productoFiltrado);
-    };
-
-    const actualizarCantidad = (id, nuevaCantidad) => {
-        if (isNaN(nuevaCantidad) || nuevaCantidad < 1) {
-            return;
-        }
-        setProductosCarrito((productosActuales) => {
-            return productosActuales.map((producto) => {
-                if (producto.id === id) {
-                    return { ...producto, cantidad: nuevaCantidad, precioCarrito: producto.precio * nuevaCantidad };
-                } else {
-                    return producto;
-                }
+    // useEffect para calcular el total del carrito cada vez que los productos cambian
+    useEffect(() => {
+        const calcularTotal = () => {
+            let nuevoTotal = 0;
+            productosCarrito.forEach((producto) => {
+                nuevoTotal += producto.precio * producto.cantidad;
             });
+            setTotal(nuevoTotal);
+        };
+
+        calcularTotal();
+    }, [productosCarrito]);
+
+    // Función para eliminar un producto del carrito
+    const eliminarProducto = (id) => {
+        const productosActualizados = productosCarrito.filter((producto) => producto.id !== id);
+        setProductosCarrito(productosActualizados);
+    };
+
+    // Función para actualizar la cantidad de un producto en el carrito
+    const actualizarCantidad = (id, nuevaCantidad) => {
+        const productosActualizados = productosCarrito.map((producto) => {
+            if (producto.id === id) {
+                return { ...producto, cantidad: nuevaCantidad, precioCarrito: producto.precio * nuevaCantidad };
+            } else {
+                return producto;
+            }
         });
+        setProductosCarrito(productosActualizados);
     };
 
-    const calcularPrecio = (id, nuevaCantidad) => {
-        const producto = productosCarrito.find((producto) => producto.id === id);
-        if (producto) {
-            return producto.precio * nuevaCantidad;
-        }
-        return 0;
-    };
-
+    // Función para limpiar el carrito
     const limpiarCarrito = () => {
         setProductosCarrito([]);
     };
@@ -45,14 +51,14 @@ function CarritoElements() {
         <div>
             <section className="h-100">
                 <div className="container h-100 py-5">
-                    <div className="row d-flex justify-content-center align-items-center h-100" id="pas">
+                    <div className="row d-flex justify-content-center align-items-center h-100">
                         <div className="col-10">
                             <div className="d-flex justify-content-between align-items-center mb-4">
                                 <h3 className="fw-normal mb-0 text-black">Shopping Cart</h3>
                             </div>
                             {productosCarrito.map((producto) => (
                                 <div key={producto.id} className="card rounded-3 mb-4">
-                                    <div className="card-body p-4" id="cards">
+                                    <div className="card-body p-4">
                                         <div className="row d-flex justify-content-between align-items-center">
                                             <div className="col-md-2 col-lg-2 col-xl-2">
                                                 <img src={producto.image} className="img-fluid rounded-3" alt="Product" />
@@ -73,7 +79,7 @@ function CarritoElements() {
                                                 />
                                             </div>
                                             <div className="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                                                <h5 className="mb-0">${calcularPrecio(producto.id, producto.cantidad)}</h5>
+                                                <h5 className="mb-0">${producto.precioCarrito}</h5>
                                             </div>
                                             <div className="col-md-1 col-lg-1 col-xl-1 text-end">
                                                 <button className="text-danger btn btn-link" onClick={() => eliminarProducto(producto.id)}>
@@ -92,9 +98,17 @@ function CarritoElements() {
                                     </div>
                                 </div>
                             ))}
+                            <div className="card mt-4">
+                                <div className="card-body text-center">
+                                    <h4 className="mb-0">Total: ${total}</h4>
+                                </div>
+                            </div>
                             <button type="button" className="btn btn-danger btn-block btn-lg" onClick={limpiarCarrito}>
                                 Limpiar Carrito
                             </button>
+                            <Link type="button" className="btn btn-danger btn-block btn-lg m-4" to="/">
+                                Volver
+                            </Link>
                         </div>
                     </div>
                 </div>

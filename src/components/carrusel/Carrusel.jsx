@@ -4,7 +4,7 @@ import imagen3 from '../img/cBayer.jpg';
 import imagen4 from '../img/cBarca.jpg';
 import imagen5 from '../img/cCity.jpg';
 import imagen6 from '../img/cBrasil.jpg';
-import imagen7 from '../img/cMilan.jpg';
+import imagen7 from '../img/cNapoli.jpg';
 import imagen8 from '../img/cUnited.jpg';
 
 import './carrusel.css'
