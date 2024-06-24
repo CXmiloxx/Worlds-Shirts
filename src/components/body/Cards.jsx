@@ -6,7 +6,7 @@ import { dataContext } from '../context/DataContext';
 export default function Cards({ productos }) {
     const { productosCarrito, setProductosCarrito } = useContext(dataContext);
 
-    const addToProduct = () => {
+    const agregarProducto = () => {
         const isItemFound = productosCarrito.find((producto) => producto.id === productos.id);
         if (isItemFound) {
             setProductosCarrito((currentProduct) => {
@@ -35,8 +35,8 @@ export default function Cards({ productos }) {
             <div>
                 <h5>{productos.title}</h5>
                 <h6 className="precio">PRECIO: {productos.precio}</h6>
-                <h6 className='autor'>Marca : {productos.autor}</h6>
-                <button type="button" className="btn btn-outline-primary" onClick={addToProduct}>Comprar</button>
+                <h6 className='autor'>MARCA : {productos.autor}</h6>
+                <button type="button" className="btn btn-outline-primary" onClick={agregarProducto}>Comprar</button>
             </div>
         </div>
     );

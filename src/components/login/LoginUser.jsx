@@ -4,11 +4,13 @@ import Cookies from 'universal-cookie';
 import Swal from 'sweetalert2';
 import "./Login.css"
 import Google from '../google/Google';
+
 import UsuarioRegistrado from '../usuarioRegistrado/Usuario'; // Importa el componente UsuarioRegistrado
 
 const LoginUser = () => {
     const cookies = new Cookies();
     const [userData, setUserData] = useState(null);
+    const URL = import.meta.env.VITE_APP_ENVIROMENT;
 
     const handleGoogleLogin = (userData) => {
         setUserData(userData);
@@ -46,55 +48,63 @@ const LoginUser = () => {
             return;
         }
 
-        fetch("http://localhost:3001/login", {
+        fetch(`${URL}/login`, {
             method: 'POST',
-            headers: { "Content-Type": "application/json", "Accept": "application/json" },
+            headers: { 
+                "Content-Type": "application/json", 
+                "Accept": "application/json" 
+            },
             body: JSON.stringify(values)
         })
-            .then(response => response.json())
-            .then(res => {
-                console.log("error >>>>", res);
-                if (res.title == "error") {
-                    Swal.fire({
-                        title: "Las credenciales ingresadas no son correctas",
-                        icon: "error"
-                    })
-                    window.location.hash = '/login'
-                    return;
-                } else {
-                    cookies.set('email', res.email, {
-                        secure: true,
-                        sameSite: 'None',
-                        path: '/'
-                    });
-
-                    cookies.set('nombres', res.nombres, {
-                        secure: true,
-                        sameSite: 'None',
-                        path: '/'
-                    });
-
-                    cookies.set('apellidos', res.apellidos, {
-                        secure: true,
-                        sameSite: 'None',
-                        path: '/'
-                    });
-
-                    cookies.set('imageUrl', res.imageUrl, {
-                        secure: true,
-                        sameSite: 'None',
-                        path: '/'
-                    });
-                    window.location.hash = (values.rol === "Usuario") ? '/iniciada' : '/usuarios-registrados';
-                }
-            })
-            .catch(error => {
-                console.error('Error al iniciar sesión:', error);
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(res => {
+            if (res.title === "error") {
                 Swal.fire({
                     title: "Las credenciales ingresadas no son correctas",
                     icon: "error"
                 });
+                window.location.hash = '/login';
+                return;
+            } else {
+                cookies.set('email', res.email, {
+                    secure: true,
+                    sameSite: 'None',
+                    path: '/'
+                });
+
+                cookies.set('nombres', res.nombres, {
+                    secure: true,
+                    sameSite: 'None',
+                    path: '/'
+                });
+
+                cookies.set('apellidos', res.apellidos, {
+                    secure: true,
+                    sameSite: 'None',
+                    path: '/'
+                });
+
+                cookies.set('imageUrl', res.imageUrl, {
+                    secure: true,
+                    sameSite: 'None',
+                    path: '/'
+                });
+
+                window.location.hash = (values.rol === "Usuario") ? '/iniciada' : '/usuarios-registrados';
+            }
+        })
+        .catch(error => {
+            console.error('Error al iniciar sesión:', error);
+            Swal.fire({
+                title: "Las credenciales ingresadas no son correctas",
+                icon: "error"
             });
+        });
 
     };
 
@@ -102,7 +112,8 @@ const LoginUser = () => {
         if (cookies.get('email')) {
             window.location.hash = '/login';
         }
-    },);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <div>

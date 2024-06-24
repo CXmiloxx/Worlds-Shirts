@@ -20,13 +20,13 @@ function CarritoElements() {
         calcularTotal();
     }, [productosCarrito]);
 
-    // Función para eliminar un producto del carrito
+    // Funcion para eliminar un producto del carrito
     const eliminarProducto = (id) => {
         const productosActualizados = productosCarrito.filter((producto) => producto.id !== id);
         setProductosCarrito(productosActualizados);
     };
 
-    // Función para actualizar la cantidad de un producto en el carrito
+    // Funcion para actualizar la cantidad de un producto en el carrito
     const actualizarCantidad = (id, nuevaCantidad) => {
         const productosActualizados = productosCarrito.map((producto) => {
             if (producto.id === id) {
@@ -38,7 +38,6 @@ function CarritoElements() {
         setProductosCarrito(productosActualizados);
     };
 
-    // Función para limpiar el carrito
     const limpiarCarrito = () => {
         setProductosCarrito([]);
     };
@@ -54,7 +53,7 @@ function CarritoElements() {
                     <div className="row d-flex justify-content-center align-items-center h-100">
                         <div className="col-10">
                             <div className="d-flex justify-content-between align-items-center mb-4">
-                                <h3 className="fw-normal mb-0 text-black">Shopping Cart</h3>
+                                <h3 className="mb-0 text-danger fs-2 fst-italic">Carrito</h3>
                             </div>
                             {productosCarrito.map((producto) => (
                                 <div key={producto.id} className="card rounded-3 mb-4">
@@ -79,21 +78,13 @@ function CarritoElements() {
                                                 />
                                             </div>
                                             <div className="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                                                <h5 className="mb-0">${producto.precioCarrito}</h5>
+                                                <h5 className="mb-0">${producto.precioCarrito} </h5>
                                             </div>
                                             <div className="col-md-1 col-lg-1 col-xl-1 text-end">
-                                                <button className="text-danger btn btn-link" onClick={() => eliminarProducto(producto.id)}>
-                                                    <i className="fas fa-trash fa-lg"> Eliminar</i>
+                                                <button className="btn btn-danger" onClick={() => eliminarProducto(producto.id)}>
+                                                    <i className=""> Eliminar</i>
                                                 </button>
                                             </div>
-                                        </div>
-                                        <div className="col-md-3 col-lg-3 col-xl-2 d-flex justify-content-center">
-                                            <button className="btn btn-link px-2" onClick={() => actualizarCantidad(producto.id, producto.cantidad - 1)}>
-                                                <i className="fas fa-minus"> Disminuir</i>
-                                            </button>
-                                            <button className="btn btn-link px-2" onClick={() => actualizarCantidad(producto.id, producto.cantidad + 1)}>
-                                                <i className="fas fa-plus"> Aumentar</i>
-                                            </button>
                                         </div>
                                     </div>
                                 </div>

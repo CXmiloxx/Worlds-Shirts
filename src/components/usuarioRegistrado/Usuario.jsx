@@ -4,11 +4,17 @@ import CardList from '../body/CardList';
 import Swal from 'sweetalert2';
 import Cookies from 'universal-cookie';
 import "./Usuario.css";
+import { useContext } from 'react';
+import { dataContext } from '../context/DataContext';
 import SesionExpired from '../sesionExpired/SesionExpirent';
 import imgStandar from  "./img/user.png"
+import { FaShoppingCart } from 'react-icons/fa';
+
 
 
 function UsuarioRegistrado() {
+    const { cantidadElementosUnicos } = useContext(dataContext);
+
     const cookies = new Cookies();
     const email = cookies.get('email');
     const nombres = cookies.get('nombres');
@@ -77,6 +83,14 @@ function UsuarioRegistrado() {
                         <img src={image || imgStandar} alt="profile" className='imgStandar' onError={(e) => { e.target.src = imgStandar; }} />
                         </div>
                         <button className='cerras-sesion' onClick={Cerrar}> Cerrar Sesión </button>
+                    </div>
+                    <div className="cart-container">
+                            <Link to="/Carrito" className="p-3 m-2">
+                                <FaShoppingCart size={34} />
+                                {cantidadElementosUnicos > 0 && (
+                                    <span className="cart-count">{cantidadElementosUnicos}</span>
+                                )}
+                            </Link>
                     </div>
                 </div>
                 

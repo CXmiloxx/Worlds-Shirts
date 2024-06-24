@@ -43,7 +43,7 @@ function Nav() {
                         </ul>
                         <div className="cart-container">
                             <Link to="/Carrito" className="cart-link">
-                                <FaShoppingCart size={24} />
+                                <FaShoppingCart size={34} />
                                 {cantidadElementosUnicos > 0 && (
                                     <span className="cart-count">{cantidadElementosUnicos}</span>
                                 )}
