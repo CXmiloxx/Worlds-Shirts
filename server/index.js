@@ -32,7 +32,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/todos-los-Usuarios", (req, res) => {
-  const query = "SELECT * FROM usuario";
+  const query = "SELECT * FROM sql3715883.usuario";
   conexion.query(query, (err, result) => {
     if (err) {
       console.error(err);

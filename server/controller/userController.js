@@ -100,9 +100,8 @@ const controller = {
 
     registerBD : function(req, res) {
         const { identificacion, nombres, apellidos, email, direccion, telefono, fechaNacimiento, password, departamento, ciudad } = req.body;
-        const query = "INSERT INTO usuario (identificacion, nombres, apellidos, email, direccion, telefono, fechaNacimiento, password, departamento, municipio, fechaCreacion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+        const query = "INSERT INTO sql3715883.usuario (identificacion, nombres, apellidos, email, direccion, telefono, fechaNacimiento, password, departamento, municipio, fechaCreacion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
         const values = [identificacion, nombres, apellidos, email, direccion, telefono, fechaNacimiento, password, departamento, ciudad];
-    
         conexion.query(query, values, (err, result) => {
             if (err) {
                 console.error(err);
