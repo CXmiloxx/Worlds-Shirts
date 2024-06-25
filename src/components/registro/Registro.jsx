@@ -21,6 +21,7 @@ export default function Registro() {
         passRepeat: "",
         departamento: "",
         ciudad: "",
+        
     });
 
     const handleChange = (e) => {

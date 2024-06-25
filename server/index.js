@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 // eslint-disable-next-line no-undef
 const express = require("express");
 const app = express();
@@ -7,6 +8,9 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 // eslint-disable-next-line no-undef
 const axios = require("axios");
+// eslint-disable-next-line no-undef
+const user = require("./controller/userController");
+const conexion = require("./configDB/configBD");
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
@@ -17,19 +21,29 @@ app.get("/", (req, res) => {
   let config = {
     method: "GET",
     url: "https://api.jsonbin.io/v3/b/6654d659ad19ca34f87015ea",
-    headers: { "Content-Type": "application/json", 
-                "X-Master-Key":
-                  "$2a$10$KOXlto6M6yRUPHJtNyxguOIzbIHp4HfSNH0pp09eoC3SxNJjqr9wq",
-              },
+    headers: { 
+      "Content-Type": "application/json", 
+      "X-Master-Key": "$2a$10$KOXlto6M6yRUPHJtNyxguOIzbIHp4HfSNH0pp09eoC3SxNJjqr9wq"
+    },
   };
   axios(config).then((result) => {
     res.send(result.data.record);
   });
 });
 
-// eslint-disable-next-line no-undef
-const user = require("./controller/userController");
-app.use("/registro-usuario", user.register);
+app.get("/todos-los-Usuarios", (req, res) => {
+  const query = "SELECT * FROM usuario";
+  conexion.query(query, (err, result) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send("Error al obtener usuarios");
+    }
+    console.log(result);
+    res.send(result);
+  });
+});
+
+app.use("/registro-usuario", user.registerBD);
 app.use("/login", user.login);
 
 const PORT = 3001;

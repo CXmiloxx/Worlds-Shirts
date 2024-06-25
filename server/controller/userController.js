@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 const axios = require("axios");
 const cors = require("cors");
+const conexion = require("../configDB/configBD");
 app.use(cors());
 
 const controller = {
@@ -96,6 +97,22 @@ const controller = {
             res.status(500).send("Error interno del servidor");
         }
     },
+
+    registerBD : function(req, res) {
+        const { identificacion, nombres, apellidos, email, direccion, telefono, fechaNacimiento, password, departamento, ciudad } = req.body;
+        const query = "INSERT INTO usuario (identificacion, nombres, apellidos, email, direccion, telefono, fechaNacimiento, password, departamento, municipio, fechaCreacion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+        const values = [identificacion, nombres, apellidos, email, direccion, telefono, fechaNacimiento, password, departamento, ciudad];
+    
+        conexion.query(query, values, (err, result) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).send("Error al insertar usuario");
+            }
+            console.log("Usuario insertado:", result);
+            res.send("Usuario insertado correctamente");
+        });
+    }
+    
 };
 
 // eslint-disable-next-line no-undef

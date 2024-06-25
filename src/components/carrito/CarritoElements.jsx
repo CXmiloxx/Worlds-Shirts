@@ -2,6 +2,8 @@ import { useContext, useEffect, useState } from "react";
 import { dataContext } from "../context/DataContext";
 import CarritoVacio from './CarritoVacio';
 import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
+
 
 function CarritoElements() {
     const { productosCarrito, setProductosCarrito } = useContext(dataContext);
@@ -39,7 +41,18 @@ function CarritoElements() {
     };
 
     const limpiarCarrito = () => {
-        setProductosCarrito([]);
+            Swal.fire({
+                title: "Estas seguro de Eliminar Todos los Productos",
+                icon: "error",
+                showCancelButton: true,
+                confirmButtonText: "Cerrar sesión",
+                cancelButtonText: "Cancelar",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    setProductosCarrito([]);
+                }
+            });
+        
     };
 
     if (productosCarrito.length === 0) {
