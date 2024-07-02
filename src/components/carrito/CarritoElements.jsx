@@ -45,7 +45,7 @@ function CarritoElements() {
                 title: "Estas seguro de Eliminar Todos los Productos",
                 icon: "error",
                 showCancelButton: true,
-                confirmButtonText: "Cerrar sesión",
+                confirmButtonText: "Eliminar Productos",
                 cancelButtonText: "Cancelar",
             }).then((result) => {
                 if (result.isConfirmed) {
