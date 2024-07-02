@@ -1,8 +1,10 @@
 /* eslint-disable no-undef */
+
 const express = require("express");
 const app = express();
 const axios = require("axios");
 const cors = require("cors");
+const moment = require("moment-timezone"); 
 const conexion = require("../configDB/configBD");
 app.use(cors());
 
@@ -32,7 +34,7 @@ const controller = {
                 password: req.body.password,
                 estado: "activo",
                 rol: req.body.rol,
-                fecha_creacion: new Date(),
+                fecha_creacion: moment.tz("America/Bogota").format(), // Ajusta la hora a la zona horaria de Colombia
                 ciudad: req.body.ciudad,
                 departamento: req.body.departamento,
             };
@@ -100,8 +102,9 @@ const controller = {
 
     registerBD : function(req, res) {
         const { identificacion, nombres, apellidos, email, direccion, telefono, fechaNacimiento, password, departamento, ciudad } = req.body;
-        const query = "INSERT INTO sql3715883.usuario (identificacion, nombres, apellidos, email, direccion, telefono, fechaNacimiento, password, departamento, municipio, fechaCreacion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
-        const values = [identificacion, nombres, apellidos, email, direccion, telefono, fechaNacimiento, password, departamento, ciudad];
+        const fechaCreacion = moment.tz("America/Bogota").format(); // Ajusta la hora a la zona horaria de Colombia
+        const query = "INSERT INTO sql3715883.usuario (identificacion, nombres, apellidos, email, direccion, telefono, fechaNacimiento, password, departamento, municipio, fechaCreacion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        const values = [identificacion, nombres, apellidos, email, direccion, telefono, fechaNacimiento, password, departamento, ciudad, fechaCreacion];
         conexion.query(query, values, (err, result) => {
             if (err) {
                 console.error(err);
