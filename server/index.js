@@ -32,7 +32,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/todos-los-Usuarios", (req, res) => {
-  const query = "SELECT * FROM sql3715883.usuario";
+  const query = "SELECT * FROM usuarios";
   conexion.query(query, (err, result) => {
     if (err) {
       console.error(err);
@@ -44,9 +44,11 @@ app.get("/todos-los-Usuarios", (req, res) => {
 });
 
 app.use("/registro-usuario", user.registerBD);
-app.use("/login", user.login);
+app.use("/login", user.loginBD);
 
 const PORT = 3001;
 app.listen(PORT, () => {
+
   console.log("Servidor corriendo en el puerto ", PORT);
+
 });

@@ -103,7 +103,7 @@ const controller = {
     registerBD : function(req, res) {
         const { identificacion, nombres, apellidos, email, direccion, telefono, fechaNacimiento, password, departamento, ciudad } = req.body;
         const fechaCreacion = moment.tz("America/Bogota").format(); // Ajusta la hora a la zona horaria de Colombia
-        const query = "INSERT INTO sql3715883.usuario (identificacion, nombres, apellidos, email, direccion, telefono, fechaNacimiento, password, departamento, municipio, fechaCreacion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        const query = "INSERT INTO usuarios (identificacion, nombres, apellidos, email, direccion, telefono, fechaNacimiento, contrasena, departamento, municipio, fechaCreacion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         const values = [identificacion, nombres, apellidos, email, direccion, telefono, fechaNacimiento, password, departamento, ciudad, fechaCreacion];
         conexion.query(query, values, (err, result) => {
             if (err) {
@@ -113,8 +113,23 @@ const controller = {
             console.log("Usuario insertado:", result);
             res.send("Usuario insertado correctamente");
         });
+    },
+
+    loginBD : async function(req, res) {
+        const { email, password } = req.body;
+        const query = "SELECT * FROM usuarios WHERE email =? AND contrasena =?";
+        conexion.query(query, [email, password], (err, result) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).send("Error al iniciar sesión");
+            }
+            if (result.length > 0) {
+                res.send(result[0]);
+            } else {
+                res.status(400).send("Error");
+            }
+        });
     }
-    
 };
 
 // eslint-disable-next-line no-undef

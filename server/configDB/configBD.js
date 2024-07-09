@@ -2,17 +2,17 @@
 const mysql = require('mysql2')
 
 const connection = mysql.createConnection({
-    host: 'sql3.freesqldatabase.com',
-    user: 'sql3715883',
-    password: 'by5MEgJ5Jt',
-    database: 'sql3715883'
+    host: '127.0.0.1',
+    user: 'root',
+    password: '',
+    database: 'BdLocal'
 })
 
 connection.connect((error)=>{
     if(error){
         console.log(error)
     }else{
-        console.log('Conexion exitosa')
+        console.log('Conexion exitosa a la base de datos')
     }
 })
 

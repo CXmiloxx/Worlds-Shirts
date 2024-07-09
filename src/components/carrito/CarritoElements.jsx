@@ -24,8 +24,20 @@ function CarritoElements() {
 
     // Funcion para eliminar un producto del carrito
     const eliminarProducto = (id) => {
-        const productosActualizados = productosCarrito.filter((producto) => producto.id !== id);
-        setProductosCarrito(productosActualizados);
+        
+        Swal.fire({
+            title: "Estas seguro de Eliminar el producto",
+            icon: "error",
+            showCancelButton: true,
+            confirmButtonText: "Eliminar Producto",
+            cancelButtonText: "Cancelar",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const productosActualizados = productosCarrito.filter((producto) => producto.id !== id);
+                setProductosCarrito(productosActualizados);
+            }
+        });
+        
     };
 
     // Funcion para actualizar la cantidad de un producto en el carrito
