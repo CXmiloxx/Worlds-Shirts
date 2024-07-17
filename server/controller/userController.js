@@ -100,21 +100,36 @@ const controller = {
         }
     },
 
-    registerBD : function(req, res) {
+    registerBD: function(req, res) {
         const { identificacion, nombres, apellidos, email, direccion, telefono, fechaNacimiento, password, departamento, ciudad } = req.body;
         const fechaCreacion = moment.tz("America/Bogota").format(); // Ajusta la hora a la zona horaria de Colombia
+        const verificacion = "SELECT * FROM usuarios WHERE identificacion = ? OR email = ?";
+        const datosVerificacion = [identificacion, email];
         const query = "INSERT INTO usuarios (identificacion, nombres, apellidos, email, direccion, telefono, fechaNacimiento, contrasena, departamento, municipio, fechaCreacion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         const values = [identificacion, nombres, apellidos, email, direccion, telefono, fechaNacimiento, password, departamento, ciudad, fechaCreacion];
-        conexion.query(query, values, (err, result) => {
+    
+        conexion.query(verificacion, datosVerificacion, (err, result) => {
             if (err) {
                 console.error(err);
-                return res.status(500).send("Error al insertar usuario");
+                return res.status(500).json({ error: "Error al verificar usuario" });
             }
-            console.log("Usuario insertado:", result);
-            res.send("Usuario insertado correctamente");
+            if (result.length > 0) {
+                const userExists = result[0];
+                const errorType = userExists.email === email ? 'email' : 'identificacion';
+                return res.status(400).json({ error: "El usuario ya existe", errorType });
+            }
+            
+            conexion.query(query, values, (err, result) => {
+                if (err) {
+                    console.error(err);
+                    return res.status(500).json({ error: "Error al insertar usuario" });
+                }
+                console.log("Usuario insertado:", result);
+                res.status(200).json({ message: "Usuario insertado correctamente" });
+            });
         });
     },
-
+    
     loginBD : async function(req, res) {
         const { email, password } = req.body;
         const query = "SELECT * FROM usuarios WHERE email =? AND contrasena =?";
@@ -129,7 +144,13 @@ const controller = {
                 res.status(400).send("Error");
             }
         });
+    },
+
+    recuperarContra : async function(req, res){
+        print(req)
+        print(res)
     }
+
 };
 
 // eslint-disable-next-line no-undef

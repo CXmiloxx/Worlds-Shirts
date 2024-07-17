@@ -45,6 +45,7 @@ app.get("/todos-los-Usuarios", (req, res) => {
 
 app.use("/registro-usuario", user.registerBD);
 app.use("/login", user.loginBD);
+app.use("/recuperar",user.recuperarContra)
 
 const PORT = 3001;
 app.listen(PORT, () => {

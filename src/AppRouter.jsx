@@ -7,6 +7,7 @@ import DataProvider from './components/context/DataContext';
 import Usuario from "./components/usuarioRegistrado/Usuario";
 import CarritoVacio from './components/carrito/CarritoVacio';
 import CarritoElements from './components/carrito/CarritoElements';
+import Recuperar from './components/RecuperarContra/Recuperar';
 
 function AppRouter() {
     return (
@@ -19,6 +20,7 @@ function AppRouter() {
                     <Route exact path='/iniciada' element={<Usuario />} />
                     <Route exact path='/Carrito' element={<CarritoElements />} />
                     <Route exact path='/Carrito-vacio' element={<CarritoVacio />} />
+                    <Route exact path='/Recuperar' element={<Recuperar/>} />
                     <Route path='*' element={<NotFound />} />
                 </Routes>
             </HashRouter>

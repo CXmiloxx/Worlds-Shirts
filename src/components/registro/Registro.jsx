@@ -73,7 +73,9 @@ export default function Registro() {
             body: JSON.stringify(values),
         })
             .then((response) => {
+
                 if (response.status === 200) {
+                    
                     Swal.fire({ title: "Usuario creado con éxito", icon: "success" });
                     form.current.reset();
                     window.location.hash = "/login";
