@@ -1,187 +1,130 @@
+import { useContext, useEffect, useState } from "react";
+import { dataContext } from "../context/DataContext";
+import CarritoVacio from './CarritoVacio';
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import Cookies from 'universal-cookie';
 import Swal from 'sweetalert2';
-import Google from '../google/Google';
-import UsuarioRegistrado from '../usuarioRegistrado/Usuario';
-const LoginUser = () => {
-    const cookies = new Cookies();
-    const [userData, setUserData] = useState(null);
-    const URL = import.meta.env.VITE_APP_ENVIROMENT;
+import './CarritoElements.css';
 
-    const handleGoogleLogin = (userData) => {
-        setUserData(userData);
-    };
-
-    const [values, setValues] = useState({
-        email: "",
-        password: "",
-        rol: ""
-    });
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setValues({
-            ...values,
-            [name]: value,
-        });
-    };
-
-    const iniciarSesion = (e) => {
-        e.preventDefault();
-
-        if (!values.rol) {
-            Swal.fire({
-                title: "Por favor selecciona un rol",
-                icon: "error"
-            });
-            return;
-        }
-
-        if (!values.email || !values.password) {
-            Swal.fire({
-                title: "Por favor completa todos los campos",
-                icon: "error"
-            });
-            return;
-        }
-
-        fetch(`${URL}/login`, {
-            method: 'POST',
-            headers: { 
-                "Content-Type": "application/json", 
-                "Accept": "application/json" 
-            },
-            body: JSON.stringify(values)
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(res => {
-            if (res.title === "error") {
-                Swal.fire({
-                    title: "Las credenciales ingresadas no son correctas",
-                    icon: "error"
-                });
-                window.location.hash = '/login';
-                return;
-            } else {
-                cookies.set('email', res.email, {
-                    secure: true,
-                    sameSite: 'None',
-                    path: '/'
-                });
-
-                cookies.set('nombres', res.nombres, {
-                    secure: true,
-                    sameSite: 'None',
-                    path: '/'
-                });
-
-                cookies.set('apellidos', res.apellidos, {
-                    secure: true,
-                    sameSite: 'None',
-                    path: '/'
-                });
-
-                cookies.set('imageUrl', res.imageUrl, {
-                    secure: true,
-                    sameSite: 'None',
-                    path: '/'
-                });
-
-                window.location.hash = (values.rol === "Usuario") ? '/iniciada' : '/usuarios-registrados';
-            }
-        })
-        .catch(error => {
-            console.error('Error al iniciar sesión:', error);
-            Swal.fire({
-                title: "Las credenciales ingresadas no son correctas",
-                icon: "error"
-            });
-        });
-
-    };
+function CarritoElements() {
+    const { productosCarrito, setProductosCarrito } = useContext(dataContext);
+    const [total, setTotal] = useState(0);
 
     useEffect(() => {
-        if (cookies.get('email')) {
-            window.location.hash = '/login';
-        }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+        const calcularTotal = () => {
+            let nuevoTotal = 0;
+            productosCarrito.forEach((producto) => {
+                nuevoTotal += producto.precio * producto.cantidad;
+            });
+            setTotal(nuevoTotal);
+        };
+
+        calcularTotal();
+    }, [productosCarrito]);
+
+    const eliminarProducto = (id) => {
+        Swal.fire({
+            title: "¿Estás seguro de eliminar el producto?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Eliminar",
+            cancelButtonText: "Cancelar",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const productosActualizados = productosCarrito.filter((producto) => producto.id !== id);
+                setProductosCarrito(productosActualizados);
+            }
+        });
+    };
+
+    const actualizarCantidad = (id, nuevaCantidad) => {
+        const productosActualizados = productosCarrito.map((producto) => {
+            if (producto.id === id) {
+                return { ...producto, cantidad: nuevaCantidad, precioCarrito: producto.precio * nuevaCantidad };
+            } else {
+                return producto;
+            }
+        });
+        setProductosCarrito(productosActualizados);
+    };
+
+    const limpiarCarrito = () => {
+        Swal.fire({
+            title: "¿Estás seguro de eliminar todos los productos?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Eliminar",
+            cancelButtonText: "Cancelar",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                setProductosCarrito([]);
+            }
+        });
+    };
+
+    if (productosCarrito.length === 0) {
+        return <CarritoVacio />;
+    }
 
     return (
-        <div>
-            {userData ? (<UsuarioRegistrado /> ) : (
-                <section className="vh-100 gradient-custom">
-                    <div className="container py-5 h-100">
-                        <div className="row d-flex justify-content-center align-items-center h-100">
-                            <div className="col-12 col-md-8 col-lg-6 col-xl-5">
-                                <div className="card bg-dark text-white">
-                                    <div className="card-body p-5 text-center d-flex flex-column justify-content-center">
-                                        <div className="mb-md-5 mt-md-4 pb-5">
-                                            <h2 className="fw-bold mb-2 text-uppercase">Inicio de Sesión</h2>
-                                            <p className="text-white-50 mb-4">Por favor ingresa tu correo y contraseña!</p>
-                                            <form onSubmit={iniciarSesion}>
-                                                <div className="form-outline form-white mb-4">
-                                                    <input 
-                                                        type="email" 
-                                                        id="typeEmailX" 
-                                                        className="form-control form-control-lg" 
-                                                        name="email" 
-                                                        onChange={handleChange} 
-                                                        required 
-                                                    />
-                                                    <label className="form-label" htmlFor="typeEmailX">Correo</label>
-                                                </div>
-                                                <div className="form-outline form-white mb-4">
-                                                    <input 
-                                                        type="password" 
-                                                        id="typePasswordX" 
-                                                        className="form-control form-control-lg" 
-                                                        name="password" 
-                                                        onChange={handleChange} 
-                                                        required 
-                                                    />
-                                                    <label className="form-label" htmlFor="typePasswordX">Contraseña</label>
-                                                </div>
-                                                <div className="form-outline form-white mb-4">
-                                                    <select 
-                                                        id="rol" 
-                                                        name="rol" 
-                                                        className="form-select form-select-lg" 
-                                                        onChange={handleChange} 
-                                                        required
-                                                    >
-                                                        <option value="">Selecciona tu rol</option>
-                                                        <option value="Usuario">Usuario</option>
-                                                        <option value="Administrador">Administrador</option>
-                                                    </select>
-                                                    <label htmlFor="rol">Rol</label>
-                                                </div>
-                                                <p className="mb-0">¿Has olvidado tu contraseña?</p>
-                                                <Link to="/Recuperar" className="text-blue-50 fw-bold mb-4">Recuperar Contraseña</Link>
-                                                <button className="btn btn-outline-light btn-lg px-5" type="submit">Iniciar Sesión</button>
-                                            </form>
-                                            <div className="d-flex justify-content-center text-center mt-4 pt-1">
-                                                <Google handleGoogleLogin={handleGoogleLogin} />
+        <div className="carrito-container">
+            <section className="h-100">
+                <div className="container h-100 py-5">
+                    <div className="row d-flex justify-content-center align-items-center h-100">
+                        <div className="col-10">
+                            <div className="d-flex justify-content-between align-items-center mb-4">
+                                <h3 className="mb-0 text-danger fs-2 fst-italic">Carrito</h3>
+                            </div>
+                            {productosCarrito.map((producto) => (
+                                <div key={producto.id} className="card rounded-3 mb-4 shadow-sm">
+                                    <div className="card-body p-4">
+                                        <div className="row d-flex justify-content-between align-items-center">
+                                            <div className="col-md-2 col-lg-2 col-xl-2">
+                                                <img src={producto.image} className="img-fluid rounded-3" alt="Product" />
                                             </div>
-                                        </div>
-                                        <div>
-                                            <p className="mb-0">¿No tienes una cuenta? <Link to="/registro" className="text-success fw-bold">Regístrate</Link></p>
+                                            <div className="col-md-4 col-lg-4 col-xl-4">
+                                                <p className="lead fw-normal mb-2">{producto.title}</p>
+                                                <input
+                                                    id={producto.id}
+                                                    min="1"
+                                                    name="quantity"
+                                                    value={producto.cantidad}
+                                                    type="number"
+                                                    className="form-control form-control-sm"
+                                                    onChange={(e) => {
+                                                        const nuevaCantidad = parseInt(e.target.value) || 1;
+                                                        actualizarCantidad(producto.id, nuevaCantidad);
+                                                    }}
+                                                />
+                                            </div>
+                                            <div className="col-md-3 col-lg-2 col-xl-2">
+                                                <h5 className="mb-0">${producto.precioCarrito} </h5>
+                                            </div>
+                                            <div className="col-md-2 col-lg-2 col-xl-2 text-end">
+                                                <button className="btn btn-danger" onClick={() => eliminarProducto(producto.id)}>
+                                                    <i className="">Eliminar</i>
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                            ))}
+                            <div className="card mt-4 shadow-sm total-card">
+                                <div className="card-body text-center">
+                                    <h4 className="mb-0">Total: ${total}</h4>
+                                </div>
                             </div>
+                            <button type="button" className="btn btn-danger btn-block btn-lg mt-3" onClick={limpiarCarrito}>
+                                Limpiar Carrito
+                            </button>
+                            <Link type="button" className="btn btn-secondary btn-block btn-lg mt-3" to="/">
+                                Volver
+                            </Link>
                         </div>
                     </div>
-                </section>
-            )}
+                </div>
+            </section>
         </div>
     );
-};
+}
 
-export default LoginUser;
+export default CarritoElements;

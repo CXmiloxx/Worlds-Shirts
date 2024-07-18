@@ -1,43 +1,136 @@
-.nav-container {
+/* registro.css */
+
+/* Estilos generales del formulario de registro */
+.container {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.registro-section {
+    background-color: #f8f9fa;
     border-radius: 10px;
     box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2);
-    margin: 1% 1%;
-    padding: 10px;
+    padding: 30px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    max-width: 100%;
+    overflow: hidden;
 }
 
-.logo {
-    width: 60px;
-    transition: transform 0.3s ease-in-out;
+.registro-card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 30px;
 }
 
-.logo:hover {
-    transform: scale(1.1);
+.registro-card-body {
+    max-width: 100%;
+    margin: 0 auto;
 }
 
-.navbar {
-    background-color: #f8f9fa; 
+.registro-input {
+    background-color: #f8f9fa;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 20px;
+    width: 100%;
 }
 
-.nav-link {
-    color: #343a40;
-    transition: color 0.3s ease-in-out;
+.registro-input:focus {
+    outline: none;
+    border-color: #1e4ae9;
+    box-shadow: 0 0 0 0.25rem rgba(30, 74, 233, 0.25);
 }
 
-.nav-link:hover {
+.registro-btn {
+    background-color: #1e4ae9;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    padding: 15px 30px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    width: 100%;
+    font-size: 1.3rem;
+}
+
+.registro-btn:hover {
+    background-color: #0c0c0c;
+    color: #ffffff;
+    transform: 1s linear;
+}
+.registro-input::placeholder {
     color: #1e4ae9; 
 }
 
-.cart-link {
-    color: #343a40;
-    transition: color 0.3s ease-in-out;
+
+.registro-login-link {
+    margin-top: 20px;
+    font-size: 14px;
+    text-align: center;
 }
 
-.cart-link:hover {
+.registro-login-link a {
     color: #1e4ae9;
+    text-decoration: none;
+    transition: color 0.3s ease;
 }
 
-.cart-count {
-    font-size: 0.75rem;
-    padding: 0.25em 0.5em;
-    line-height: 1;
+.registro-login-link a:hover {
+    color: #0d2cb6;
+}
+
+.registro-input,
+.registro-input option {
+    color: #1e4ae9;
+    font-family: Arial, sans-serif;
+}
+
+.inicio-sesion{
+    margin-top: 20px;
+    font-size: 1.5rem;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+
+    cursor: pointer;
+    transition: color 0.3s ease;
+    margin-bottom: 20px;
+    
+}
+.sesion-inicio,.color-p{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 1.2rem;
+}
+
+.color-p{
+    color: black;
+}
+.sesion-inicio:hover{
+    color: black;
+    transform: 1s linear;
+    font-size: 1.3rem;
+}
+
+/* Estilos específicos para el formulario de registro en dispositivos móviles */
+@media (max-width: 768px) {
+    .registro-section {
+        padding: 20px;
+    }
+
+    .registro-card {
+        padding: 20px;
+    }
+
+    .registro-input {
+        padding: 12px;
+    }
+
+    .registro-btn {
+        padding: 12px 24px;
+    }
 }

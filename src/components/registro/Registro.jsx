@@ -75,7 +75,7 @@ export default function Registro() {
             .then((response) => {
 
                 if (response.status === 200) {
-                    
+
                     Swal.fire({ title: "Usuario creado con éxito", icon: "success" });
                     form.current.reset();
                     window.location.hash = "/login";
@@ -105,7 +105,7 @@ export default function Registro() {
         }
         return age >= 12;
     };
-    
+
 
     return (
         <div className="container">
@@ -127,7 +127,7 @@ export default function Registro() {
                                                 <input
                                                     type="number"
                                                     id="form3Example0cg"
-                                                    className="form-control registro-input"
+                                                    className="form-control registro-input text-primary"
                                                     name="identificacion"
                                                     placeholder="Debe estar entre 5 y 10 dígitos"
                                                     onChange={handleChange}
@@ -141,7 +141,7 @@ export default function Registro() {
                                                 <input
                                                     type="text"
                                                     id="form3Example1cg"
-                                                    className="form-control registro-input"
+                                                    className="form-control registro-input text-primary"
                                                     name="nombres"
                                                     placeholder="Debe ser de mínimo tres caracteres"
                                                     onChange={handleChange}
@@ -157,7 +157,7 @@ export default function Registro() {
                                                 <input
                                                     type="text"
                                                     id="form3Example2cg"
-                                                    className="form-control registro-input"
+                                                    className="form-control registro-input text-primary"
                                                     name="apellidos"
                                                     placeholder="Debe ser de mínimo tres caracteres"
                                                     onChange={handleChange}
@@ -171,7 +171,7 @@ export default function Registro() {
                                                 <input
                                                     type="text"
                                                     id="form3Example3cg"
-                                                    className="form-control registro-input"
+                                                    className="form-control registro-input text-primary"
                                                     name="email"
                                                     placeholder="Debe ser un formato válido. Ejemplo: alguien@gmail.com"
                                                     onChange={handleChange}
@@ -187,7 +187,7 @@ export default function Registro() {
                                                 <input
                                                     type="text"
                                                     id="form3Example4cg"
-                                                    className="form-control registro-input"
+                                                    className="form-control registro-input text-primary"
                                                     name="direccion"
                                                     placeholder="Debe ser de mínimo quince caracteres"
                                                     onChange={handleChange}
@@ -201,7 +201,7 @@ export default function Registro() {
                                                 <input
                                                     type="number"
                                                     id="form3Example5cg"
-                                                    className="form-control registro-input"
+                                                    className="form-control registro-input text-primary"
                                                     name="telefono"
                                                     placeholder="Debe ser de diez números"
                                                     onChange={handleChange}
@@ -216,7 +216,7 @@ export default function Registro() {
                                             <input
                                                 type="date"
                                                 id="form3Example6cg"
-                                                className="form-control registro-input"
+                                                className="form-control registro-input text-primary"
                                                 name="fechaNacimiento"
                                                 onChange={handleChange}
                                             />
@@ -264,7 +264,7 @@ export default function Registro() {
                                             <input
                                                 type="password"
                                                 id="form3Example7cg"
-                                                className="form-control registro-input"
+                                                className="form-control registro-input text-primary"
                                                 name="password"
                                                 placeholder="Ingrese password"
                                                 onChange={handleChange}
@@ -278,7 +278,7 @@ export default function Registro() {
                                             <input
                                                 type="password"
                                                 id="form3Example8cdg"
-                                                className="form-control registro-input"
+                                                className="form-control registro-input text-primary"
                                                 name="passRepeat"
                                                 placeholder="Reingrese password"
                                                 onChange={handleChange}
@@ -287,13 +287,13 @@ export default function Registro() {
 
                                         <div className="d-flex justify-content-center">
                                             <button type="submit" className="btn registro-btn">
-                                                Registrar
+                                                REGISTRARSE
                                             </button>
                                         </div>
-
-                                        <p className="text-center text-muted mt-5 mb-0 registro-login-link">
-                                            Ya tienes una cuenta creada ? <Link to="/login">Iniciar sesión</Link>
-                                        </p>
+                                        <hr />
+                                        <div className="d-flex justify-content-center m-1 ">
+                                            <p className="color-p">¿Ya tienes una cuenta creada? <Link to='/Login' className="sesion-inicio">Iniciar Sesión</Link> </p> 
+                                        </div>
                                     </div>
                                 </div>
                             </div>

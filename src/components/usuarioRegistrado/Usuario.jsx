@@ -1,20 +1,16 @@
 import { Link } from 'react-router-dom';
-import Foot from '../footer/Foot';
-import CardList from '../body/CardList';
+import { useContext } from 'react';
 import Swal from 'sweetalert2';
 import Cookies from 'universal-cookie';
 import "./Usuario.css";
-import { useContext } from 'react';
 import { dataContext } from '../context/DataContext';
-import SesionExpired from '../sesionExpired/SesionExpirent';
-import imgStandar from  "./img/user.png"
+import imgStandar from "./img/user.png";
 import { FaShoppingCart } from 'react-icons/fa';
-
-
+import CardList from '../body/CardList';
+import Foot from '../footer/Foot';
 
 function UsuarioRegistrado() {
     const { cantidadElementosUnicos } = useContext(dataContext);
-
     const cookies = new Cookies();
     const email = cookies.get('email');
     const nombres = cookies.get('nombres');
@@ -23,8 +19,8 @@ function UsuarioRegistrado() {
 
     function Cerrar() {
         Swal.fire({
-            title: "Estas seguro de cerrar sesión",
-            icon: "error",
+            title: "¿Estás seguro de cerrar sesión?",
+            icon: "question",
             showCancelButton: true,
             confirmButtonText: "Cerrar sesión",
             cancelButtonText: "Cancelar",
@@ -41,63 +37,43 @@ function UsuarioRegistrado() {
 
     return (
         <div className='contenedor'>
-            <nav className="navbar navbar-expand-lg">
+            <nav className="navbar navbar-expand-lg navbar-light bg-light">
                 <div className="container-fluid">
-                    <img src='icono_champions.jpeg' className='logo' alt="logo" />
-                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span className="navbar-toggler-icon"></span>
+                    <Link to="/" className="navbar-brand">
+                        <img src={image || imgStandar} alt="profile" className='imgStandar' onClick={() => window.location.href = '/'} onError={(e) => { e.target.src = imgStandar; }} />
+                    </Link>
+                    <button className='navbar-toggler' type='button' data-bs-toggle='collapse' data-bs-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation'>
+                        <span className='navbar-toggler-icon'></span>
                     </button>
-                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                    <div className="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
+                        <ul className="navbar-nav mb-2 mb-lg-0">
                             <li className="nav-item">
-                                <Link to="/" className="nav-link" aria-current="page">Home</Link>
+                                <p className="nav-link"><span className="label">Nombre:</span> {nombres} {apellidos}</p>
                             </li>
                             <li className="nav-item">
-                                <Link to="/tutoriales" className="nav-link">Tutoriales</Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link to="/referencias" className="nav-link">Referencias</Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link to="/recursos" className="nav-link">Recursos</Link>
+                                <p className="nav-link"><span className="label">Email:</span> {email}</p>
                             </li>
                             <li className="nav-item">
                                 <Link to="/contacto" className="nav-link">Contacto</Link>
                             </li>
-                            <li className="nav-item">
-                                {email? (
-                                <p className="nav-link"><span className="label">Correo:</span> {email}</p>
-                                ) : (
-                                <p>No se encontró información del usuario.</p>
-                                )}
-                            </li>
-                            <li className="nav-item">
-                            {nombres ||apellidos ? (
-                                <p className="nav-link"><span className="label">Nombre:</span> {nombres} {apellidos}</p>
-                                ) : (
-                                <p>No se encontró información del usuario.</p>
-                                )}
-                            </li>
                         </ul>
-                        <div className="userData">
-                        <img src={image || imgStandar} alt="profile" className='imgStandar' onError={(e) => { e.target.src = imgStandar; }} />
-                        </div>
-                        <button className='cerras-sesion' onClick={Cerrar}> Cerrar Sesión </button>
-                    </div>
-                    <div className="cart-container">
-                            <Link to="/Carrito" className="p-3 m-2">
-                                <FaShoppingCart size={34} />
+
+                        <div className="d-flex align-items-center">
+                            <Link to="/Carrito" className="cart-link position-relative">
+                                <FaShoppingCart size={32} />
                                 {cantidadElementosUnicos > 0 && (
-                                    <span className="cart-count">{cantidadElementosUnicos}</span>
+                                    <span className="cart-count position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                        {cantidadElementosUnicos}
+                                    </span>
                                 )}
                             </Link>
+                            <button className='cerrar-sesion btn btn-danger ms-3' onClick={Cerrar}>Cerrar Sesión</button>
+                        </div>
                     </div>
                 </div>
-                
             </nav>
             <CardList />
-            <Foot/>
-            <SesionExpired />
+            <Foot />
         </div>
     );
 }

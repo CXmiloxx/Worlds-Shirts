@@ -15,9 +15,9 @@ function AppRouter() {
             <HashRouter>
                 <Routes>
                     <Route exact path='/' element={<Inicio />} />
-                    <Route exact path='/registro' element={<Registro />} />
-                    <Route exact path='/login' element={<LoginUser />} />
-                    <Route exact path='/iniciada' element={<Usuario />} />
+                    <Route exact path='/Registro' element={<Registro />} />
+                    <Route exact path='/Login' element={<LoginUser />} />
+                    <Route exact path='/Iniciada' element={<Usuario />} />
                     <Route exact path='/Carrito' element={<CarritoElements />} />
                     <Route exact path='/Carrito-vacio' element={<CarritoVacio />} />
                     <Route exact path='/Recuperar' element={<Recuperar/>} />

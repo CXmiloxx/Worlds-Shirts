@@ -26,10 +26,10 @@ function Nav() {
                                 <Link to="/contacto" className="nav-link">Contacto</Link>
                             </li>
                             <li className="nav-item">
-                                <Link to="/registro" className="nav-link">Registro</Link>
+                                <Link to="/Registro" className="nav-link">Registro</Link>
                             </li>
                             <li className="nav-item">
-                                <Link to="/login" className="nav-link">Iniciar sesión</Link>
+                                <Link to="/Login" className="nav-link">Iniciar sesión</Link>
                             </li>
                         </ul>
                         <div className="d-flex align-items-center">
