@@ -8,6 +8,7 @@ import Usuario from "./components/usuarioRegistrado/Usuario";
 import CarritoVacio from './components/carrito/CarritoVacio';
 import CarritoElements from './components/carrito/CarritoElements';
 import Recuperar from './components/RecuperarContra/Recuperar';
+import Admin from './components/administrador/Admin';
 
 function AppRouter() {
     return (
@@ -18,6 +19,7 @@ function AppRouter() {
                     <Route exact path='/Registro' element={<Registro />} />
                     <Route exact path='/Login' element={<LoginUser />} />
                     <Route exact path='/Iniciada' element={<Usuario />} />
+                    <Route exact path='/Adiministrador' element={<Admin />} />
                     <Route exact path='/Carrito' element={<CarritoElements />} />
                     <Route exact path='/Carrito-vacio' element={<CarritoVacio />} />
                     <Route exact path='/Recuperar' element={<Recuperar/>} />

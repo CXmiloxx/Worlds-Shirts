@@ -35,8 +35,8 @@ export default function Recuperar() {
                                             </button>
                                         </div>
                                         <div className="d-flex gap-2 justify-content-between">
-                                            <Link to='/Login' className="text-blue-50">Iniciar Sesión</Link>
-                                            <Link to='/Registro' className="text-blue-50">Crear una Cuenta</Link>
+                                            <Link to='/Login' className="btn-login">Iniciar Sesión</Link>
+                                            <Link to='/Registro' className="btn-registro">Crear una Cuenta</Link>
                                         </div>
                                     </form>
                                 </div>

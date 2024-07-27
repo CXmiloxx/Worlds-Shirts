@@ -10,7 +10,6 @@ const bodyParser = require("body-parser");
 const axios = require("axios");
 // eslint-disable-next-line no-undef
 const user = require("./controller/userController");
-const conexion = require("./configDB/configBD");
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
@@ -31,21 +30,14 @@ app.get("/", (req, res) => {
   });
 });
 
-app.get("/todos-los-Usuarios", (req, res) => {
-  const query = "SELECT * FROM usuarios";
-  conexion.query(query, (err, result) => {
-    if (err) {
-      console.error(err);
-      return res.status(500).send("Error al obtener usuarios");
-    }
-    console.log(result);
-    res.send(result);
-  });
-});
 
 app.use("/registro-usuario", user.registerBD);
 app.use("/login", user.loginBD);
-app.use("/recuperar",user.recuperarContra)
+app.use("/recuperar",user.recuperarContra);
+app.use("/usuariosBd", user.usuariosBD)
+app.use("/eliminarusuarioBd", user.eliminarUsuarioBd)
+app.use("/actualizarUsuarioBd", user.actualizarUsuarioBd)
+
 
 const PORT = 3001;
 app.listen(PORT, () => {

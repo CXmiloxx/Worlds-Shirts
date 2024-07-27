@@ -18,6 +18,7 @@ export default function Registro() {
         telefono: "",
         fechaNacimiento: "",
         password: "",
+        rol: "usuario",
         passRepeat: "",
         departamento: "",
         ciudad: "",

@@ -68,6 +68,13 @@ p {
     background-color: #0056b3;
 }
 
+.btn-registro:hover{
+    color: blue;
+}
+.btn-login:hover{
+    color: blue;
+}
+
 .text-blue-50 {
     color: #007bff;
     text-decoration: none;

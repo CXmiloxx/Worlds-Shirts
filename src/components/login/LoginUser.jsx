@@ -17,8 +17,7 @@ const LoginUser = () => {
 
     const [values, setValues] = useState({
         email: '',
-        password: '',
-        rol: ''
+        password: ''
     });
 
     const handleChange = (e) => {
@@ -31,14 +30,6 @@ const LoginUser = () => {
 
     const iniciarSesion = (e) => {
         e.preventDefault();
-
-        if (!values.rol) {
-            Swal.fire({
-                title: 'Por favor selecciona un rol',
-                icon: 'error'
-            });
-            return;
-        }
 
         if (!values.email || !values.password) {
             Swal.fire({
@@ -65,10 +56,9 @@ const LoginUser = () => {
             .then(res => {
                 if (res.title === 'error') {
                     Swal.fire({
-                        title: 'Las credenciales ingresadas no son correctas',
+                        title: res.message,
                         icon: 'error'
                     });
-                    window.location.hash = '/login';
                     return;
                 } else {
                     // Set cookies
@@ -96,7 +86,13 @@ const LoginUser = () => {
                         path: '/'
                     });
 
-                    window.location.hash = values.rol === 'Usuario' ? '/iniciada' : '/usuarios-registrados';
+                    cookies.set('rol', res.rol, {
+                        secure: true,
+                        sameSite: 'None',
+                        path: '/'
+                    });
+
+                    window.location.hash = res.rol === 'admin' ? '/Adiministrador' : '/Login';
                 }
             })
             .catch(error => {
@@ -110,7 +106,7 @@ const LoginUser = () => {
 
     useEffect(() => {
         if (cookies.get('email')) {
-            window.location.hash = '/Login';
+            window.location.hash = '/iniciada';
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -152,23 +148,6 @@ const LoginUser = () => {
                                         onChange={handleChange}
                                         required
                                     />
-                                </div>
-                                <div className="mb-3">
-                                    <label htmlFor="rol" className="login-form-label">
-                                        ROL
-                                    </label>
-                                    <select
-                                        className="form-select"
-                                        id="rol"
-                                        name="rol"
-                                        value={values.rol}
-                                        onChange={handleChange}
-                                        required
-                                    >
-                                        <option value="">SLECCIONA UN ROL</option>
-                                        <option value="Usuario">USUARIO</option>
-                                        <option value="Administrador">ADMINISTRADOR</option>
-                                    </select>
                                 </div>
                                 <div className="d-grid mb-3">
                                     <button type="submit" className="btn btn-primary">

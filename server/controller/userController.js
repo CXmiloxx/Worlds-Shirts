@@ -101,12 +101,12 @@ const controller = {
     },
 
     registerBD: function(req, res) {
-        const { identificacion, nombres, apellidos, email, direccion, telefono, fechaNacimiento, password, departamento, ciudad } = req.body;
+        const { identificacion, nombres, apellidos, email, direccion, telefono, fechaNacimiento, password, rol, departamento, ciudad } = req.body;
         const fechaCreacion = moment.tz("America/Bogota").format(); // Ajusta la hora a la zona horaria de Colombia
         const verificacion = "SELECT * FROM usuarios WHERE identificacion = ? OR email = ?";
         const datosVerificacion = [identificacion, email];
-        const query = "INSERT INTO usuarios (identificacion, nombres, apellidos, email, direccion, telefono, fechaNacimiento, contrasena, departamento, municipio, fechaCreacion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        const values = [identificacion, nombres, apellidos, email, direccion, telefono, fechaNacimiento, password, departamento, ciudad, fechaCreacion];
+        const query = "INSERT INTO usuarios (identificacion, nombres, apellidos, email, direccion, telefono, fechaNacimiento, contrasena,rol, departamento, municipio, fechaCreacion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        const values = [identificacion, nombres, apellidos, email, direccion, telefono, fechaNacimiento, password, rol, departamento, ciudad, fechaCreacion];
     
         conexion.query(verificacion, datosVerificacion, (err, result) => {
             if (err) {
@@ -146,6 +146,64 @@ const controller = {
         });
     },
 
+    usuariosBD: async function(req, res) {
+        const query = "SELECT * FROM usuarios WHERE rol = ?";
+        const rol = 'usuario';
+    
+        conexion.query(query, [rol], (err, result) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).send("Error al obtener usuarios");
+            }
+            res.send(result);
+        });
+    },
+
+    eliminarUsuarioBd: async function (req, res) {
+        const { identificacion } = req.body;
+        const query = "DELETE FROM usuarios WHERE identificacion = ?";
+    
+        conexion.query(query, [identificacion], (err) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).json({ message: "Error al eliminar usuario" });
+            }
+            // Enviar solo un JSON con el mensaje de éxito
+            res.status(200).json({ message: "Usuario eliminado correctamente" });
+        });
+    },
+
+    actualizarUsuarioBd: async function (req, res) {
+        const { identificacion, nombres, apellidos, email, direccion, telefono } = req.body;
+    
+        // Validación de entrada
+        if (!identificacion || !nombres || !apellidos || !email || !direccion || !telefono) {
+            return res.status(400).json({ message: "Todos los campos son obligatorios" });
+        }
+    
+        const query = `
+            UPDATE usuarios 
+            SET nombres = ?, apellidos = ?, email = ?, direccion = ?, telefono = ? 
+            WHERE identificacion = ?
+        `;
+        const valores = [nombres, apellidos, email, direccion, telefono, identificacion];
+    
+        conexion.query(query, valores, (err, result) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).json({ message: "Error al actualizar usuario", error: err.message });
+            }
+            
+            // Verifica si se ha actualizado algún registro
+            if (result.affectedRows === 0) {
+                return res.status(404).json({ message: "Usuario no encontrado" });
+            }
+    
+            res.status(200).json({ message: "Usuario actualizado correctamente" });
+        });
+    },
+    
+    
     recuperarContra : async function(req, res){
         print(req)
         print(res)
