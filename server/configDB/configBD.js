@@ -1,6 +1,5 @@
 /* eslint-disable no-undef */
-const mysql = require('mysql2')
-
+import mysql from 'mysql2';
 const connection = mysql.createConnection({
     host: '127.0.0.1',
     user: 'root',
@@ -16,4 +15,4 @@ connection.connect((error)=>{
     }
 })
 
-module.exports = connection;
+export default connection;

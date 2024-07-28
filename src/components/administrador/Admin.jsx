@@ -1,10 +1,23 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
-
 const URL = import.meta.env.VITE_APP_ENVIROMENT;
 
 export default function Admin() {
+
+    function Cerrar() {
+        Swal.fire({
+            title: "¿Estás seguro de cerrar sesión?",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonText: "Cerrar sesión",
+            cancelButtonText: "Cancelar",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.hash = "/Login";
+            }
+        });
+    }
+
     const [usuarios, setUsuarios] = useState([]);
     const [error, setError] = useState(null);
     const [selectedUsuario, setSelectedUsuario] = useState(null);
@@ -110,7 +123,7 @@ export default function Admin() {
 
     return (
         <div>
-            <Link to='/'>volver</Link>
+            <button className='cerrar-sesion btn btn-danger ms-3' onClick={Cerrar}>Cerrar Sesión</button>
             <h2 className="text-center m-2 p-3 bg-primary text-light rounded fs-2">Panel de Administración</h2>
             {error && <div className="alert alert-danger">{error}</div>}
             <table className="table table-bordered">

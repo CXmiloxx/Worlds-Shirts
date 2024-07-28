@@ -1,18 +1,12 @@
-/* eslint-disable no-undef */
-// eslint-disable-next-line no-undef
-const express = require("express");
+import express from 'express';
 const app = express();
-// eslint-disable-next-line no-undef
-const cors = require("cors");
-// eslint-disable-next-line no-undef
-const bodyParser = require("body-parser");
-// eslint-disable-next-line no-undef
-const axios = require("axios");
-// eslint-disable-next-line no-undef
-const user = require("./controller/userController");
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import axios from 'axios';
+import user from './controller/userController.js'
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.json());
+app.use(express.json()); 
 app.use(bodyParser.json());
 app.use(cors());
 
@@ -33,7 +27,7 @@ app.get("/", (req, res) => {
 
 app.use("/registro-usuario", user.registerBD);
 app.use("/login", user.loginBD);
-app.use("/recuperar",user.recuperarContra);
+app.use("/recuperarContra",user.recuperarContra);
 app.use("/usuariosBd", user.usuariosBD)
 app.use("/eliminarusuarioBd", user.eliminarUsuarioBd)
 app.use("/actualizarUsuarioBd", user.actualizarUsuarioBd)

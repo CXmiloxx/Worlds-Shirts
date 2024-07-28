@@ -49,56 +49,33 @@ const LoginUser = () => {
         })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    return response.json().then(res => {
+                        throw new Error(res.error || 'Error al iniciar sesión');
+                    });
                 }
                 return response.json();
             })
             .then(res => {
-                if (res.title === 'error') {
+                if (res.success) {
+                    const user = res.user;
+                    cookies.set('email', user.email, { secure: true, sameSite: 'None', path: '/' });
+                    cookies.set('nombres', user.nombres, { secure: true, sameSite: 'None', path: '/' });
+                    cookies.set('apellidos', user.apellidos, { secure: true, sameSite: 'None', path: '/' });
+                    cookies.set('imageUrl', user.imageUrl, { secure: true, sameSite: 'None', path: '/' });
+                    cookies.set('rol', user.rol, { secure: true, sameSite: 'None', path: '/' });
+
+                    window.location.hash = user.rol === 'admin' ? '/Adiministrador' : '/iniciada';
+                } else {
                     Swal.fire({
-                        title: res.message,
+                        title: res.error,
                         icon: 'error'
                     });
-                    return;
-                } else {
-                    // Set cookies
-                    cookies.set('email', res.email, {
-                        secure: true,
-                        sameSite: 'None',
-                        path: '/'
-                    });
-
-                    cookies.set('nombres', res.nombres, {
-                        secure: true,
-                        sameSite: 'None',
-                        path: '/'
-                    });
-
-                    cookies.set('apellidos', res.apellidos, {
-                        secure: true,
-                        sameSite: 'None',
-                        path: '/'
-                    });
-
-                    cookies.set('imageUrl', res.imageUrl, {
-                        secure: true,
-                        sameSite: 'None',
-                        path: '/'
-                    });
-
-                    cookies.set('rol', res.rol, {
-                        secure: true,
-                        sameSite: 'None',
-                        path: '/'
-                    });
-
-                    window.location.hash = res.rol === 'admin' ? '/Adiministrador' : '/Login';
                 }
             })
             .catch(error => {
                 console.error('Error al iniciar sesión:', error);
                 Swal.fire({
-                    title: 'Las credenciales ingresadas no son correctas',
+                    title: error.message,
                     icon: 'error'
                 });
             });
@@ -106,7 +83,7 @@ const LoginUser = () => {
 
     useEffect(() => {
         if (cookies.get('email')) {
-            window.location.hash = '/iniciada';
+            window.location.hash = '/Login';
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
