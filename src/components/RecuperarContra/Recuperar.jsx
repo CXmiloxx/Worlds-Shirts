@@ -2,7 +2,8 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import './Recuperar.css';
 import Swal from "sweetalert2";
-const URL = import.meta.env.VITE_APP_ENVIROMENT;
+
+const URL = import.meta.env.VITE_APP_ENVIROMENT;  // Asegúrate de que esta URL sea correcta
 
 export default function Recuperar() {
     const [email, setEmail] = useState("");
@@ -12,7 +13,7 @@ export default function Recuperar() {
         
         const nuevaContrasena = generarContrasenaAleatoria();
     
-        fetch(`${URL}/recuperarContra`, {
+        fetch(`${URL}/recuperarContra`, {  // Asegúrate de que la URL coincida con la ruta en tu servidor
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -34,12 +35,10 @@ export default function Recuperar() {
             Swal.fire({ title: "Error", text: error.message, icon: "error" });
         });
     };
-    
 
     const validatePassword = (password) => /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/.test(password);
 
     const generarContrasenaAleatoria = () => {
-        
         const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789#?!@$%^&*-';
         let contrasena;
         do {

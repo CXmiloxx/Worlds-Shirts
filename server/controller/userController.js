@@ -1,110 +1,17 @@
-    import express from 'express'; 
-    const app = express();
-    //const axios = require("axios");
-    import cors from 'cors';
-    import moment from 'moment-timezone';
-    import conexion from '../configDB/configBD.js';
-    //const nodemailer = require("nodemailer");
-    import { Resend } from 'resend';
-    app.use(cors());
+import { uploader } from '../config/cloudinaryConfig.js';
+import connection from '../config/configBD.js';
+import express from 'express';
+import cors from 'cors';
+import moment from 'moment-timezone';
+import { Resend } from 'resend';
 
+const app = express();
+app.use(cors());
 
 const resend = new Resend('re_4iUpcS8p_CGQvkhikGNrFcUXteYR6XKbE');
 
-    const controller = {
-    // register: function (req, res) {
-    //     let config = {
-    //         method: "GET",
-    //         maxBodyLength: Infinity,
-    //         url: "https://api.jsonbin.io/v3/b/6654d659ad19ca34f87015ea",
-    //         headers: {
-    //             "Content-Type": "application/json",
-    //             "X-Master-Key": "$2a$10$KOXlto6M6yRUPHJtNyxguOIzbIHp4HfSNH0pp09eoC3SxNJjqr9wq",
-    //         },
-    //     };
-
-    //     axios(config).then((result) => {
-    //         let id = result.data.record.length + 1;
-    //         const usuarioNuevo = {
-    //             id: id,
-    //             identificacion: req.body.identificacion,
-    //             nombres: req.body.nombres,
-    //             apellidos: req.body.apellidos,
-    //             email: req.body.email,
-    //             direccion: req.body.direccion,
-    //             telefono: req.body.telefono,
-    //             fechaNacimiento: req.body.fechaNacimiento,
-    //             password: req.body.password,
-    //             estado: "activo",
-    //             rol: req.body.rol,
-    //             fecha_creacion: moment.tz("America/Bogota").format(), // Ajusta la hora a la zona horaria de Colombia
-    //             ciudad: req.body.ciudad,
-    //             departamento: req.body.departamento,
-    //         };
-
-    //         if (result.data.record.some((x) => x.email === req.body.email)) {
-    //             res.status(400).send("Usuario ya existe");
-    //             return;
-    //         }
-
-    //         result.data.record.push(usuarioNuevo);
-
-    //         fetch("https://api.jsonbin.io/v3/b/6654d659ad19ca34f87015ea", {
-    //             method: "PUT",
-    //             headers: {
-    //                 "Content-Type": "application/json",
-    //                 "X-Master-Key": "$2a$10$KOXlto6M6yRUPHJtNyxguOIzbIHp4HfSNH0pp09eoC3SxNJjqr9wq",
-    //             },
-    //             body: JSON.stringify(result.data.record),
-    //         }).then((response) => {
-    //             if (response.status === 200) {
-    //                 res.status(200).send("ok");
-    //             } else {
-    //                 res.status(400).send("No Ok");
-    //             }
-    //         });
-    //     });
-    // },
-
-    // login: async function (req, res) {
-    //     try {
-    //         const config = {
-    //             method: "GET",
-    //             maxBodyLength: Infinity,
-    //             url: "https://api.jsonbin.io/v3/b/6654d659ad19ca34f87015ea",
-    //             headers: {
-    //                 "Content-Type": "application/json",
-    //                 "X-Master-Key": "$2a$10$KOXlto6M6yRUPHJtNyxguOIzbIHp4HfSNH0pp09eoC3SxNJjqr9wq",
-    //             },
-    //         };
-
-    //         const response = await axios(config);
-    //         const users = response.data.record;
-
-    //         const user = users.find(
-    //             (x) =>
-    //                 x.email === req.body.email &&
-    //                 x.password === req.body.password &&
-    //                 x.rol === req.body.rol
-    //         );
-
-    //         if (user) {
-    //             return res.status(200).json({
-    //                 nombres: user.nombres,
-    //                 apellidos: user.apellidos,
-    //                 email: user.email,
-    //             });
-    //         } else {
-    //             res.status(400).send("Error");
-    //         }
-    //     } catch (error) {
-    //         console.error("Error al iniciar sesión:", error);
-    //         res.status(500).send("Error interno del servidor");
-    //     }
-    // },
-
-    registerBD: function (req, res) {
-        const {
+export const registerBD = async (req, res) => {
+    const {
         identificacion,
         nombres,
         apellidos,
@@ -114,222 +21,177 @@ const resend = new Resend('re_4iUpcS8p_CGQvkhikGNrFcUXteYR6XKbE');
         fechaNacimiento,
         password,
         rol,
+        estado,
         departamento,
         ciudad,
-        } = req.body;
-        const fechaCreacion = moment.tz("America/Bogota").format(); // Ajusta la hora a la zona horaria de Colombia
-        const verificacion =
-        "SELECT * FROM usuarios WHERE identificacion = ? OR email = ?";
+    } = req.body;
+    const file = req.file;
+    const fechaCreacion = moment.tz("America/Bogota").format(); // Ajusta la hora a la zona horaria de Colombia
+
+    try {
+        // Verificación de usuario existente
+        const verificacion = "SELECT * FROM usuarios WHERE identificacion = ? OR email = ?";
         const datosVerificacion = [identificacion, email];
-        const query =
-        "INSERT INTO usuarios (identificacion, nombres, apellidos, email, direccion, telefono, fechaNacimiento, contrasena,rol, departamento, municipio, fechaCreacion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        const [existingUser] = await connection.query(verificacion, datosVerificacion);
+
+        if (existingUser.length > 0) {
+            const userExists = existingUser[0];
+            const errorType = userExists.email === email ? "email" : "identificacion";
+            return res.status(400).json({ error: "El usuario ya existe", errorType });
+        }
+
+        // Subir imagen a Cloudinary
+        const result = await new Promise((resolve, reject) => {
+            uploader.upload_stream({ folder: "usuarios" }, (error, result) => {
+                if (error) reject(error);
+                else resolve(result);
+            }).end(file.buffer);
+        });
+
+        const imagen_url = result.secure_url;
+
+        const query = "INSERT INTO usuarios (identificacion, nombres, apellidos, email, direccion, telefono, fechaNacimiento, contrasena, rol, estado, departamento, municipio, fechaCreacion, imagen_url) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         const values = [
-        identificacion,
-        nombres,
-        apellidos,
-        email,
-        direccion,
-        telefono,
-        fechaNacimiento,
-        password,
-        rol,
-        departamento,
-        ciudad,
-        fechaCreacion,
+            identificacion,
+            nombres,
+            apellidos,
+            email,
+            direccion,
+            telefono,
+            fechaNacimiento,
+            password,
+            rol,
+            estado,
+            departamento,
+            ciudad,
+            fechaCreacion,
+            imagen_url
         ];
 
-        conexion.query(verificacion, datosVerificacion, (err, result) => {
-        if (err) {
-            console.error(err);
-            return res.status(500).json({ error: "Error al verificar usuario" });
+        await connection.query(query, values);
+        res.status(200).json({ message: "Usuario insertado correctamente" });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Error al registrar el usuario" });
+    }
+};
+
+export const loginBd = async (req, res) => {
+    const { email, password } = req.body;
+    const query = "SELECT * FROM usuarios WHERE email = ?";
+
+    try {
+        const [result] = await connection.query(query, [email]);
+
+        if (result.length === 0) {
+            return res.status(404).json({ error: "El correo no está registrado" });
         }
-        if (result.length > 0) {
-            const userExists = result[0];
-            const errorType =
-            userExists.email === email ? "email" : "identificacion";
-            return res
-            .status(400)
-            .json({ error: "El usuario ya existe", errorType });
+
+        const user = result[0];
+        if (user.contrasena !== password) {
+            return res.status(401).json({ error: "Contraseña incorrecta" });
         }
 
-        conexion.query(query, values, (err, result) => {
-            if (err) {
-            console.error(err);
-            return res.status(500).json({ error: "Error al insertar usuario" });
-            }
-            console.log("Usuario insertado:", result);
-            res.status(200).json({ message: "Usuario insertado correctamente" });
+        res.status(200).json({
+            success: true,
+            user: user
         });
-        });
-    },
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Error al iniciar sesión" });
+    }
+};
 
-    loginBD: async function (req, res) {
+export const usuariosBD = async (req, res) => {
+    const query = "SELECT * FROM usuarios WHERE rol = ?";
+    const rol = "usuario";
 
-        const { email, password } = req.body;
-        const query = "SELECT * FROM usuarios WHERE email = ?";
-        
-        conexion.query(query, [email], (err, result) => {
-            if (err) {
-
-                console.error(err);
-                return res.status(500).json({ error: "Error al iniciar sesión" });
-            }
-            if (result.length === 0) {
-                return res.status(404).json({ error: "El correo no está registrado" });
-            }
-            
-            const user = result[0];
-            if (user.contrasena !== password) {
-                return res.status(401).json({ error: "Contraseña incorrecta" });
-            }
-    
-            res.status(200).json({
-                success: true,
-                user: user
-            });
-        });
-    },
-    
-    
-
-    usuariosBD: async function (req, res) {
-        const query = "SELECT * FROM usuarios WHERE rol = ?";
-        const rol = "usuario";
-
-        conexion.query(query, [rol], (err, result) => {
-        if (err) {
-            console.error(err);
-            return res.status(500).send("Error al obtener usuarios");
-        }
+    try {
+        const [result] = await connection.query(query, [rol]);
         res.send(result);
-        });
-    },
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Error al obtener usuarios");
+    }
+};
 
-    eliminarUsuarioBd: async function (req, res) {
-        const { identificacion } = req.body;
-        const query = "DELETE FROM usuarios WHERE identificacion = ?";
+export const eliminarUsuarioBd = async (req, res) => {
+    const { identificacion } = req.body;
+    const query = "DELETE FROM usuarios WHERE identificacion = ?";
 
-        conexion.query(query, [identificacion], (err) => {
-        if (err) {
-            console.error(err);
-            return res.status(500).json({ message: "Error al eliminar usuario" });
-        }
+    try {
+        await connection.query(query, [identificacion]);
         res.status(200).json({ message: "Usuario eliminado correctamente" });
-        });
-    },
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Error al eliminar usuario" });
+    }
+};
 
-    actualizarUsuarioBd: async function (req, res) {
-        const { identificacion, nombres, apellidos, email, direccion, telefono } =
-        req.body;
-        if (
-        !identificacion ||
-        !nombres ||
-        !apellidos ||
-        !email ||
-        !direccion ||
-        !telefono
-        ) {
-        return res
-            .status(400)
-            .json({ message: "Todos los campos son obligatorios" });
-        }
+export const actualizarUsuarioBd = async (req, res) => {
+    const { identificacion, nombres, apellidos, email, direccion, telefono } = req.body;
 
-        const query = `
-                UPDATE usuarios 
-                SET nombres = ?, apellidos = ?, email = ?, direccion = ?, telefono = ? 
-                WHERE identificacion = ?
-            `;
-        const valores = [
-        nombres,
-        apellidos,
-        email,
-        direccion,
-        telefono,
-        identificacion,
-        ];
+    if (!identificacion || !nombres || !apellidos || !email || !direccion || !telefono) {
+        return res.status(400).json({ message: "Todos los campos son obligatorios" });
+    }
 
-        conexion.query(query, valores, (err, result) => {
-        if (err) {
-            console.error(err);
-            return res
-            .status(500)
-            .json({ message: "Error al actualizar usuario", error: err.message });
-        }
+    const query = `
+        UPDATE usuarios 
+        SET nombres = ?, apellidos = ?, email = ?, direccion = ?, telefono = ? 
+        WHERE identificacion = ?
+    `;
+    const valores = [nombres, apellidos, email, direccion, telefono, identificacion];
 
-        // Verifica si se ha actualizado algún registro
+    try {
+        const [result] = await connection.query(query, valores);
+
         if (result.affectedRows === 0) {
             return res.status(404).json({ message: "Usuario no encontrado" });
         }
 
         res.status(200).json({ message: "Usuario actualizado correctamente" });
-        });
-    },
-
-    recuperarContra: async function (req, res) {
-        const { email, contrasena } = req.body;
-        const query = "SELECT * FROM usuarios WHERE email = ?";
-    
-        conexion.query(query, [email], (err, result) => {
-            if (err) {
-                console.error(err);
-                return res.status(500).json({ message: "Error al recuperar contraseña", error: err.message });
-            }
-    
-            if (result.length === 0) {
-                return res.status(404).json({ message: "Usuario no encontrado" });
-            }
-    
-            const updateQuery = `
-                UPDATE usuarios
-                SET contrasena = ?
-                WHERE email = ?
-            `;
-    
-            conexion.query(updateQuery, [contrasena, email], async (err, result) => {
-                if (err) {
-                    console.error(err);
-                    return res.status(500).json({ message: "Error al actualizar contraseña", error: err.message });
-                }
-    
-                if (result.affectedRows === 0) {
-                    return res.status(404).json({ message: "Usuario no encontrado" });
-                }
-    
-                try {
-                    await resend.emails.send({
-                        from: 'onboarding@resend.dev',
-                        to: email,
-                        subject: 'Recuperar Contraseña',
-                        html: `
-                            <!DOCTYPE html>
-                            <html lang="es">
-                            <head>
-                                <meta charset="UTF-8">
-                                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                                <title>Nueva Contraseña</title>
-                            </head>
-                            <body>
-                                <h1>Hola</h1>
-                                <h3>${email}</h3>
-                                <p>Tu nueva contraseña es: <strong>${contrasena}</strong></p>
-                                <p>Recuerda siempre tu contraseña </p>
-                                <p>Saludos,</p>
-                                <p>Equipo de Soporte</p>
-                                <p><a href="https://ligamerch.onrender.com/#/Login">Ir al sitio web</a></p>
-                            </body>
-                            </html>
-                        `
-                    });
-                    res.status(200).json({ message: "Contraseña actualizada y correo enviado correctamente", success: true });
-                } catch (error) {
-                    console.error("Error al enviar el correo:", error);
-                    res.status(500).json({ message: "Error al enviar el correo", error: error.message });
-                }
-            });
-        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Error al actualizar usuario", error: err.message });
     }
-    
-    };
+};
 
-    // eslint-disable-next-line no-undef
-    export default controller;
+export const recuperarContra = async (req, res) => {
+    const { email, contrasena } = req.body;
+    const query = "SELECT * FROM usuarios WHERE email = ?";
+
+    try {
+        const [result] = await connection.query(query, [email]);
+
+        if (result.length === 0) {
+            return res.status(404).json({ message: "Usuario no encontrado" });
+        }
+
+        const updateQuery = "UPDATE usuarios SET contrasena = ? WHERE email = ?";
+        const [updateResult] = await connection.query(updateQuery, [contrasena, email]);
+
+        if (updateResult.affectedRows === 0) {
+            return res.status(404).json({ message: "Usuario no encontrado" });
+        }
+
+        await resend.emails.send({
+            from: 'onboarding@resend.dev',
+            to: email,
+            subject: 'Recuperar Contraseña',
+            html: `
+                    <h1>Hola</h1>
+                    <p>Tu nueva contraseña es: <strong>${contrasena}</strong></p>
+                    <p>Recuerda siempre tu contraseña </p>
+                    <p>Saludos,</p>
+                    <p>Equipo de Soporte</p>
+                    <p><a href="https://ligamerch.onrender.com/#/Login">Ir al sitio web</a></p>
+            `
+        });
+
+        res.status(200).json({ message: "Contraseña actualizada y correo enviado correctamente", success: true });
+    } catch (err) {
+        console.error("Error al enviar el correo:", err);
+        res.status(500).json({ message: "Error al enviar el correo", error: err.message });
+    }
+};
+

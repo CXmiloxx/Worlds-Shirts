@@ -19,14 +19,20 @@ export default function Registro() {
         fechaNacimiento: "",
         password: "",
         rol: "usuario",
+        estado: "activo",
         passRepeat: "",
         departamento: "",
         ciudad: "",
     });
+    const [imagen, setImagen] = useState(null);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setValues({ ...values, [name]: value });
+    };
+
+    const handleImageChange = (e) => {
+        setImagen(e.target.files[0]);
     };
 
     const handleSubmit = (e) => {
@@ -54,29 +60,21 @@ export default function Registro() {
             }
         }
 
-        /*Envío de datos al servidor
-        fetch("http://localhost:3001/registro-usuario", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json",
-            },
-            body: JSON.stringify(values),
-        })*/
-
         // Envío de datos al servidor
-        fetch(`${URL}/registro-usuario`, {
+        const formData = new FormData();
+        Object.keys(values).forEach(key => {
+            formData.append(key, values[key]);
+        });
+        if (imagen) {
+            formData.append("imagen", imagen);
+        }
+
+        fetch(`${URL}/register`, {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json",
-            },
-            body: JSON.stringify(values),
+            body: formData,
         })
             .then((response) => {
-
                 if (response.status === 200) {
-
                     Swal.fire({ title: "Usuario creado con éxito", icon: "success" });
                     form.current.reset();
                     window.location.hash = "/login";
@@ -106,7 +104,6 @@ export default function Registro() {
         }
         return age >= 12;
     };
-
 
     return (
         <div className="container">
@@ -225,15 +222,48 @@ export default function Registro() {
 
                                         <div className="row">
                                             <div className="form-outline mb-4 col-12 col-md-6">
-                                                <label className="form-label" htmlFor="form3Example3cg">
-                                                    <strong>Departamento residencia</strong>
+                                                <label className="form-label" htmlFor="form3Example4cg">
+                                                    <strong>Contraseña</strong>
                                                 </label>
-                                                <br />
-                                                <select name="departamento" onChange={handleChange} className="form-control registro-input">
-                                                    <option>Seleccione:</option>
-                                                    {colombia.map((depto, index) => (
-                                                        <option key={index} value={depto.departamento}>
-                                                            {depto.departamento}
+                                                <input
+                                                    type="password"
+                                                    id="form3Example7cg"
+                                                    className="form-control registro-input text-primary"
+                                                    name="password"
+                                                    placeholder="Debe contener mínimo una mayúscula, una minúscula, un carácter especial, un número y mínimo ocho caracteres"
+                                                    onChange={handleChange}
+                                                />
+                                            </div>
+
+                                            <div className="form-outline mb-4 col-12 col-md-6">
+                                                <label className="form-label" htmlFor="form3Example4cg">
+                                                    <strong>Repetir contraseña</strong>
+                                                </label>
+                                                <input
+                                                    type="password"
+                                                    id="form3Example8cg"
+                                                    className="form-control registro-input text-primary"
+                                                    name="passRepeat"
+                                                    onChange={handleChange}
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div className="row">
+                                            <div className="form-outline mb-4 col-12 col-md-6">
+                                                <label className="form-label" htmlFor="form3Example3cg">
+                                                    <strong>Departamento</strong>
+                                                </label>
+                                                <select
+                                                    className="form-select registro-input text-primary"
+                                                    aria-label="Default select example"
+                                                    name="departamento"
+                                                    onChange={handleChange}
+                                                >
+                                                    <option value="">Selecciona un departamento</option>
+                                                    {colombia.map((elemento, i) => (
+                                                        <option key={i} value={elemento.departamento}>
+                                                            {elemento.departamento}
                                                         </option>
                                                     ))}
                                                 </select>
@@ -241,16 +271,20 @@ export default function Registro() {
 
                                             <div className="form-outline mb-4 col-12 col-md-6">
                                                 <label className="form-label" htmlFor="form3Example3cg">
-                                                    <strong>Ciudad o municipio Residencia</strong>
+                                                    <strong>Ciudad</strong>
                                                 </label>
-                                                <br />
-                                                <select name="ciudad" onChange={handleChange} className="form-control registro-input">
-                                                    <option>Seleccione:</option>
-                                                    {values.departamento &&
+                                                <select
+                                                    className="form-select registro-input text-primary"
+                                                    aria-label="Default select example"
+                                                    name="ciudad"
+                                                    onChange={handleChange}
+                                                >
+                                                    <option value="">Selecciona una ciudad</option>
+                                                    {values.departamento !== "" &&
                                                         colombia
-                                                            .find((depto) => depto.departamento === values.departamento)
-                                                            .ciudades.map((ciudad, index) => (
-                                                                <option key={index} value={ciudad}>
+                                                            .find(elemento => elemento.departamento === values.departamento)
+                                                            .ciudades.map((ciudad, i) => (
+                                                                <option key={i} value={ciudad}>
                                                                     {ciudad}
                                                                 </option>
                                                             ))}
@@ -259,42 +293,31 @@ export default function Registro() {
                                         </div>
 
                                         <div className="form-outline mb-4">
-                                            <label className="form-label" htmlFor="form3Example4cg">
-                                                <strong>Contraseña</strong>
+                                            <label className="form-label" htmlFor="imagen">
+                                                <strong>Imagen de perfil</strong>
                                             </label>
                                             <input
-                                                type="password"
-                                                id="form3Example7cg"
+                                                type="file"
+                                                id="imagen"
                                                 className="form-control registro-input text-primary"
-                                                name="password"
-                                                placeholder="Ingrese password"
-                                                onChange={handleChange}
-                                            />
-                                        </div>
-
-                                        <div className="form-outline mb-4">
-                                            <label className="form-label" htmlFor="form3Example4cdg">
-                                                <strong>Repita la Contraseña</strong>
-                                            </label>
-                                            <input
-                                                type="password"
-                                                id="form3Example8cdg"
-                                                className="form-control registro-input text-primary"
-                                                name="passRepeat"
-                                                placeholder="Reingrese password"
-                                                onChange={handleChange}
+                                                name="imagen"
+                                                accept="image/*"
+                                                onChange={handleImageChange}
                                             />
                                         </div>
 
                                         <div className="d-flex justify-content-center">
-                                            <button type="submit" className="btn registro-btn">
-                                                REGISTRARSE
+                                            <button type="submit" className="btn btn-success btn-block btn-lg text-body">
+                                                Registrar
                                             </button>
                                         </div>
-                                        <hr />
-                                        <div className="d-flex justify-content-center m-1 ">
-                                            <p className="color-p">¿Ya tienes una cuenta creada? <Link to='/Login' className="sesion-inicio">Iniciar Sesión</Link> </p> 
-                                        </div>
+
+                                        <p className="text-center text-muted mt-5 mb-0">
+                                            ¿Ya tienes cuenta?{" "}
+                                            <Link to="/login" className="fw-bold text-body">
+                                                <u>Inicia sesión aquí</u>
+                                            </Link>
+                                        </p>
                                     </div>
                                 </div>
                             </div>
