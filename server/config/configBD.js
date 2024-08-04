@@ -8,7 +8,7 @@ let connection;
 
 export async function createConnection() {
     if (!connection) {
-        const password = process.env.DB_PASSWORD === 'NO_PASSWORD' ? '' : process.env.DB_PASSWORD;
+        const password = process.env.DB_PASSWORD  || '' ;
         connection = await mysql.createConnection({
             host: process.env.DB_HOST,
             user: process.env.DB_USER,
