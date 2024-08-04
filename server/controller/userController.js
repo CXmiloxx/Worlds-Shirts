@@ -1,7 +1,7 @@
 import { uploader } from '../config/cloudinaryConfig.js';
-import connection from '../config/configBD.js';
 import express from 'express';
 import cors from 'cors';
+import { createConnection } from '../config/configBD.js';
 import moment from 'moment-timezone';
 import { Resend } from 'resend';
 
@@ -9,6 +9,9 @@ const app = express();
 app.use(cors());
 
 const resend = new Resend('re_4iUpcS8p_CGQvkhikGNrFcUXteYR6XKbE');
+
+const connection = await createConnection();
+
 
 export const registerBD = async (req, res) => {
     const {
@@ -29,6 +32,7 @@ export const registerBD = async (req, res) => {
     const fechaCreacion = moment.tz("America/Bogota").format(); // Ajusta la hora a la zona horaria de Colombia
 
     try {
+        
         // Verificación de usuario existente
         const verificacion = "SELECT * FROM usuarios WHERE identificacion = ? OR email = ?";
         const datosVerificacion = [identificacion, email];
@@ -102,6 +106,7 @@ export const loginBd = async (req, res) => {
     }
 };
 
+
 export const usuariosBD = async (req, res) => {
     const query = "SELECT * FROM usuarios WHERE rol = ?";
     const rol = "usuario";
@@ -115,6 +120,7 @@ export const usuariosBD = async (req, res) => {
     }
 };
 
+
 export const eliminarUsuarioBd = async (req, res) => {
     const { identificacion } = req.body;
     const query = "DELETE FROM usuarios WHERE identificacion = ?";
@@ -127,6 +133,7 @@ export const eliminarUsuarioBd = async (req, res) => {
         res.status(500).json({ message: "Error al eliminar usuario" });
     }
 };
+
 
 export const actualizarUsuarioBd = async (req, res) => {
     const { identificacion, nombres, apellidos, email, direccion, telefono } = req.body;
@@ -155,6 +162,7 @@ export const actualizarUsuarioBd = async (req, res) => {
         res.status(500).json({ message: "Error al actualizar usuario", error: err.message });
     }
 };
+
 
 export const recuperarContra = async (req, res) => {
     const { email, contrasena } = req.body;
