@@ -25,16 +25,31 @@ export default function Registro() {
         ciudad: "",
     });
     const [imagen, setImagen] = useState(null);
+    const [imagenPreview, setImagenPreview] = useState(null);
+
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setValues({ ...values, [name]: value });
     };
 
-    const handleImageChange = (e) => {
-        setImagen(e.target.files[0]);
-    };
 
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setImagen(file);
+
+            // Crear una URL de vista previa
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImagenPreview(reader.result);
+            };
+            reader.readAsDataURL(file);
+        } else {
+            setImagenPreview(null);
+        }
+    };
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -305,9 +320,19 @@ export default function Registro() {
                                                 onChange={handleImageChange}
                                             />
                                         </div>
+                                        {imagenPreview && (
+                                            <div>
+                                                <img
+                                                    src={imagenPreview}
+                                                    alt="Imagen de Perfil"
+                                                    className="img-fluid"
+                                                    style={{ maxWidth: "100px", margin: "15 px" }}
+                                                />
+                                            </div>
+                                        )}
 
                                         <div className="d-flex justify-content-center">
-                                            <button type="submit" className="btn btn-success btn-block btn-lg text-body">
+                                            <button type="submit" className="btn btn-block btn-lg text-body bg-primary">
                                                 Registrar
                                             </button>
                                         </div>

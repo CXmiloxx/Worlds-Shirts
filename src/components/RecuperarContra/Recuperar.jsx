@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import './Recuperar.css';
 import Swal from "sweetalert2";
 
-const URL = import.meta.env.VITE_APP_ENVIROMENT;  // Asegúrate de que esta URL sea correcta
+const URL = import.meta.env.VITE_APP_ENVIROMENT;
 
 export default function Recuperar() {
     const [email, setEmail] = useState("");
@@ -13,7 +13,7 @@ export default function Recuperar() {
         
         const nuevaContrasena = generarContrasenaAleatoria();
     
-        fetch(`${URL}/recuperarContra`, {  // Asegúrate de que la URL coincida con la ruta en tu servidor
+        fetch(`${URL}/recuperarContra`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
