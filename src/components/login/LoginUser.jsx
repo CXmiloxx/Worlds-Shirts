@@ -1,19 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Cookies from 'universal-cookie';
 import Swal from 'sweetalert2';
-import Google from '../google/Google';
-import UsuarioRegistrado from '../usuarioRegistrado/Usuario';
 import './LoginUser.css';
+import FiraBaseAuth from '../FiraBase/FiraBaseAuth';
 
 const LoginUser = () => {
-    const cookies = new Cookies();
-    const [userData, setUserData] = useState(null);
     const URL = import.meta.env.VITE_APP_ENVIROMENT;
-
-    const handleGoogleLogin = (userData) => {
-        setUserData(userData);
-    };
 
     const [values, setValues] = useState({
         email: '',
@@ -39,7 +31,7 @@ const LoginUser = () => {
             return;
         }
 
-        fetch(`${URL}/login`, {
+        fetch(`${URL}/login`, { // Actualiza la URL si es necesario
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -58,11 +50,11 @@ const LoginUser = () => {
             .then(res => {
                 if (res.success) {
                     const user = res.user;
-                    cookies.set('email', user.email, { secure: true, sameSite: 'None', path: '/' });
-                    cookies.set('nombres', user.nombres, { secure: true, sameSite: 'None', path: '/' });
-                    cookies.set('apellidos', user.apellidos, { secure: true, sameSite: 'None', path: '/' });
-                    cookies.set('imageUrl', user.imageUrl, { secure: true, sameSite: 'None', path: '/' });
-                    cookies.set('rol', user.rol, { secure: true, sameSite: 'None', path: '/' });
+                    sessionStorage.setItem('email', user.email);
+                    sessionStorage.setItem('nombres', user.nombres);
+                    sessionStorage.setItem('apellidos', user.apellidos);
+                    sessionStorage.setItem('imageUrl', user.imageUrl);
+                    sessionStorage.setItem('rol', user.rol);
 
                     window.location.hash = user.rol === 'admin' ? '/Adiministrador' : '/iniciada';
                 } else {
@@ -81,71 +73,61 @@ const LoginUser = () => {
             });
     };
 
-    useEffect(() => {
-        if (cookies.get('email')) {
-            window.location.hash = '/Login';
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
     return (
-        <div>
-            {userData ? (<UsuarioRegistrado />) : (
-                <div className="login-container">
-                    <div className="login-card">
-                        <div className="login-card-header">
-                            <h2 className="login-card-title">INICIAR SESION</h2>
+        <div className="login-container">
+            <div className="login-card">
+                <div className="login-card-header">
+                    <h2 className="login-card-title">INICIAR SESION</h2>
+                </div>
+                <div className="login-card-body">
+                    <form onSubmit={iniciarSesion} className="login-form">
+                        <div className="mb-3">
+                            <label htmlFor="email" className="login-form-label">
+                                CORREO ELECTRONICO
+                            </label>
+                            <input
+                                type="email"
+                                className="form-control text-primary"
+                                id="email"
+                                name="email"
+                                value={values.email}
+                                onChange={handleChange}
+                                required
+                            />
                         </div>
-                        <div className="login-card-body">
-                            <form onSubmit={iniciarSesion} className="login-form">
-                                <div className="mb-3">
-                                    <label htmlFor="email" className="login-form-label">
-                                        CORREO ELECTRONICO
-                                    </label>
-                                    <input
-                                        type="email"
-                                        className="form-control text-primary"
-                                        id="email"
-                                        name="email"
-                                        value={values.email}
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                </div>
-                                <div className="mb-3">
-                                    <label htmlFor="password" className="login-form-label">
-                                        CONTRASEÑA
-                                    </label>
-                                    <input
-                                        type="password"
-                                        className="form-control text-primary"
-                                        id="password"
-                                        name="password"
-                                        value={values.password}
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                </div>
-                                <div className="d-grid mb-3">
-                                    <button type="submit" className="btn btn-primary">
-                                        Iniciar Sesión
-                                    </button>
-                                </div>
-                                <div className="text-center">
-                                    <Link to="/Recuperar" className="login-forgot-password">¿Olvidaste tu contraseña?</Link>
-                                </div>
-                                <div className="text-center mt-2">
-                                    <Link to='/Registro' className="login-register-link">Registrate</Link>
-                                </div>
-                                <hr />
-                                <div className="text-center m-2">
-                                    <Google handleGoogleLogin={handleGoogleLogin} />
-                                </div>
-                            </form>
+                        <div className="mb-3">
+                            <label htmlFor="password" className="login-form-label">
+                                CONTRASEÑA
+                            </label>
+                            <input
+                                type="password"
+                                className="form-control text-primary"
+                                id="password"
+                                name="password"
+                                value={values.password}
+                                onChange={handleChange}
+                                required
+                            />
                         </div>
+                        <div className="d-grid mb-3">
+                            <button type="submit" className="btn btn-primary">
+                                Iniciar Sesión
+                            </button>
+                        </div>
+                        <div className="text-center">
+                            <Link to="/Recuperar" className="login-forgot-password">¿Olvidaste tu contraseña?</Link>
+                        </div>
+                        <div className="text-center mt-2">
+                            <Link to='/Registro' className="login-register-link">Registrate</Link>
+                        </div>
+                    </form>
+                    <div className="text-center m-2">
+                        <FiraBaseAuth/>
+                    </div>
+                    <div className="text-center m-2">
                     </div>
                 </div>
-            )}
+            </div>
         </div>
     );
 };

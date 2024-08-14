@@ -14,7 +14,6 @@ function UsuarioRegistrado() {
     const cookies = new Cookies();
     const email = cookies.get('email');
     const nombres = cookies.get('nombres');
-    const apellidos = cookies.get('apellidos');
     const image = cookies.get('imageUrl');
 
     function Cerrar() {
@@ -28,7 +27,6 @@ function UsuarioRegistrado() {
             if (result.isConfirmed) {
                 cookies.remove('email');
                 cookies.remove('nombres');
-                cookies.remove('apellidos');
                 cookies.remove('imageUrl');
                 window.location.hash = "/login";
             }
@@ -48,7 +46,7 @@ function UsuarioRegistrado() {
                     <div className="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
                         <ul className="navbar-nav mb-2 mb-lg-0">
                             <li className="nav-item">
-                                <p className="nav-link"><span className="label">Nombre:</span> {nombres} {apellidos}</p>
+                                <p className="nav-link"><span className="label">Nombre:</span> {nombres}</p>
                             </li>
                             <li className="nav-item">
                                 <p className="nav-link"><span className="label">Email:</span> {email}</p>
