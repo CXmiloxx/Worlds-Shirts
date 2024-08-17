@@ -14,9 +14,9 @@ router.put("/recuperarContra",recuperarContra);
 
 router.get('/usuariosBd', usuariosBD);
 
-router.post('/eliminarusuarioBd', eliminarUsuarioBd);
+router.delete('/eliminarusuarioBd', eliminarUsuarioBd);
 
-router.post('/actualizarUsuarioBd', actualizarUsuarioBd);
+router.put('/actualizarUsuarioBd', actualizarUsuarioBd);
 
 
 export default router;

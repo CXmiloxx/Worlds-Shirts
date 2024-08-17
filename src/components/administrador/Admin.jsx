@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 const URL = import.meta.env.VITE_APP_ENVIROMENT;
+import { Modal } from "bootstrap";
 
 export default function Admin() {
 
@@ -24,18 +25,18 @@ export default function Admin() {
 
     const fetchUsuarios = async () => {
         try {
-            const response = await fetch(`${URL}/usuariosBD`, {
+            const response = await fetch(`${URL}/usuariosBd`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                     Accept: 'application/json',
-                }
+                },
             });
-
+    
             if (!response.ok) {
                 throw new Error('La respuesta de la red no fue correcta');
             }
-
+    
             const data = await response.json();
             setUsuarios(data);
         } catch (error) {
@@ -43,11 +44,11 @@ export default function Admin() {
             setError(error.message);
         }
     };
+    
 
     const actualizarUsuario = (usuario) => {
         setSelectedUsuario(usuario);
-        // eslint-disable-next-line no-undef
-        const modal = new bootstrap.Modal(document.getElementById('modalActualizar'));
+        const modal = new Modal(document.getElementById('modalActualizar'));
         modal.show();
     };
 
@@ -98,16 +99,16 @@ export default function Admin() {
                             'Content-Type': 'application/json',
                             Accept: 'application/json',
                         },
-                        body: JSON.stringify({ identificacion })
+                        body: JSON.stringify({ identificacion }),
                     });
-
+    
                     if (!response.ok) {
                         throw new Error('La respuesta de la red no fue correcta');
                     }
-
+    
                     const data = await response.json();
                     setUsuarios((prevUsuarios) => prevUsuarios.filter(user => user.identificacion !== identificacion));
-
+    
                     Swal.fire('Eliminado!', data.message, 'success');
                 } catch (error) {
                     console.error('Error al eliminar el usuario:', error);
@@ -116,6 +117,7 @@ export default function Admin() {
             }
         });
     };
+    
 
     useEffect(() => {
         fetchUsuarios();
@@ -130,7 +132,7 @@ export default function Admin() {
                 <thead className="bg-dark text-light text-center">
                     <tr>
                         <th scope="col">N°</th>
-                        <th scope="col">CEDULA</th>
+                        <th scope="col">IMAGEN</th>
                         <th scope="col">NOMBRES</th>
                         <th scope="col">APELLIDOS</th>
                         <th scope="col">TELEFONO</th>
@@ -145,7 +147,7 @@ export default function Admin() {
                         usuarios.map((usuario, index) => (
                             <tr key={usuario.identificacion}>
                                 <td>{index + 1}</td>
-                                <td>{usuario.identificacion}</td>
+                                <td><img src={usuario.urlImagen} alt={usuario.nombres} width="100" height="100" /></td>
                                 <td>{usuario.nombres}</td>
                                 <td>{usuario.apellidos}</td>
                                 <td>{usuario.telefono}</td>

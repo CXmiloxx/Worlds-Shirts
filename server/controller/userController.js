@@ -52,9 +52,9 @@ export const registerBD = async (req, res) => {
             }).end(file.buffer);
         });
 
-        const imagen_url = result.secure_url;
+        const urlImagen = result.secure_url;
 
-        const query = "INSERT INTO usuarios (identificacion, nombres, apellidos, email, direccion, telefono, fechaNacimiento, contrasena, rol, estado, departamento, municipio, fechaCreacion, imagen_url) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        const query = "INSERT INTO usuarios (identificacion, nombres, apellidos, email, direccion, telefono, fechaNacimiento, contrasena, rol, estado, departamento, municipio, fechaCreacion, urlImagen) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         const values = [
             identificacion,
             nombres,
@@ -69,7 +69,7 @@ export const registerBD = async (req, res) => {
             departamento,
             ciudad,
             fechaCreacion,
-            imagen_url
+            urlImagen
         ];
 
         await connection.query(query, values);
