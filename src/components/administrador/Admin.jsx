@@ -19,6 +19,12 @@ export default function Admin() {
         });
     }
 
+    const RegistroLibro = () => {
+        window.location.hash = "/RegistroProductos";
+    }
+
+
+
     const [usuarios, setUsuarios] = useState([]);
     const [error, setError] = useState(null);
     const [selectedUsuario, setSelectedUsuario] = useState(null);
@@ -32,11 +38,11 @@ export default function Admin() {
                     Accept: 'application/json',
                 },
             });
-    
+
             if (!response.ok) {
                 throw new Error('La respuesta de la red no fue correcta');
             }
-    
+
             const data = await response.json();
             setUsuarios(data);
         } catch (error) {
@@ -44,7 +50,7 @@ export default function Admin() {
             setError(error.message);
         }
     };
-    
+
 
     const actualizarUsuario = (usuario) => {
         setSelectedUsuario(usuario);
@@ -101,14 +107,14 @@ export default function Admin() {
                         },
                         body: JSON.stringify({ identificacion }),
                     });
-    
+
                     if (!response.ok) {
                         throw new Error('La respuesta de la red no fue correcta');
                     }
-    
+
                     const data = await response.json();
                     setUsuarios((prevUsuarios) => prevUsuarios.filter(user => user.identificacion !== identificacion));
-    
+
                     Swal.fire('Eliminado!', data.message, 'success');
                 } catch (error) {
                     console.error('Error al eliminar el usuario:', error);
@@ -117,7 +123,7 @@ export default function Admin() {
             }
         });
     };
-    
+
 
     useEffect(() => {
         fetchUsuarios();
@@ -126,6 +132,7 @@ export default function Admin() {
     return (
         <div>
             <button className='cerrar-sesion btn btn-danger ms-3' onClick={Cerrar}>Cerrar Sesión</button>
+            <button className=" btn btn-primary ms-3" onClick={RegistroLibro}>Registrar libro</button>
             <h2 className="text-center m-2 p-3 bg-primary text-light rounded fs-2">Panel de Administración</h2>
             {error && <div className="alert alert-danger">{error}</div>}
             <table className="table table-bordered">
@@ -210,6 +217,7 @@ export default function Admin() {
                     </div>
                 </div>
             )}
+
         </div>
     );
 }

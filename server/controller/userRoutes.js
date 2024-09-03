@@ -1,7 +1,7 @@
 // routes/userRoutes.js
 import { Router } from 'express';
 import multer from 'multer';
-import {registerBD, loginBd, recuperarContra, usuariosBD, eliminarUsuarioBd, actualizarUsuarioBd } from '../controller/userController.js';
+import {registerBD, loginBd, recuperarContra, usuariosBD, eliminarUsuarioBd, actualizarUsuarioBd, registroProductos, obtenerProductos } from '../controller/userController.js';
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
@@ -17,6 +17,10 @@ router.get('/usuariosBd', usuariosBD);
 router.delete('/eliminarusuarioBd', eliminarUsuarioBd);
 
 router.put('/actualizarUsuarioBd', actualizarUsuarioBd);
+
+router.post('/nuevosProductos', upload.single('image'), registroProductos);
+
+router.get('/productos', obtenerProductos);
 
 
 export default router;

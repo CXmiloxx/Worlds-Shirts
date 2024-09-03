@@ -1,0 +1,93 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container-bar{
+    width: 100%;
+    max-width: 85px;
+    position: fixed;
+    left: 0;
+    top: 25%;
+}
+.container-bar a{
+    display: block;
+    padding: 15px;
+    text-decoration: none;
+    font-size: 30px;
+    position: relative;
+    transition: all 50ms ease;
+}
+
+.container-bar i{
+    color: #fff;
+}
+.container-bar a:hover{
+    background-color: #333;
+}
+.container-bar .icon-facebook{
+background: #3b5998;
+border-radius: 0px 5px 0px 0px;
+}
+
+.container-bar .icon-twitter{
+background: #00acee;
+border-radius: 5px 0px 0px 0px;
+}
+
+.container-bar .icon-Google{
+background: #f08b8b;
+border-radius: 0px 0px 5px 0px;
+}
+
+.container-bar .icon-linkedin{
+background: #e4405f;
+border-radius: 0px 0px 0px 5px;
+}
+
+.container-bar .icon-github{
+background: #6d6565;
+border-radius: 0px 0px 5px 0px;
+}
+
+.container-bar .icon-pinterest{
+background: #eb359c;
+border-radius: 0px 0px 5px 0px;
+}
+
+.container-bar .icon-whatsapp{
+background: #14f169;
+border-radius: 0px 0px 5px 0px;
+}
+
+.container-bar #title{
+    position: fixed;
+    background: #1c1c1c;
+    color: white;
+    padding: 6px;
+    border-radius: 3px;
+    font-size: 15px;
+    margin-top: 10px;
+    transition: all 500ms ease;
+    opacity: 0;
+    opacity: hidden;
+}
+
+.container-bar a:hover #title{
+    opacity: 1;
+    opacity: visible;
+    margin-left: 54px;
+}
+
+.container-bar #title:after{
+    position: absolute;
+    content: '';
+    border-left: 7px solid transparent ;
+    border-right: 7px solid #1c1c1c;
+    border-top: 7px solid transparent;
+    border-bottom: 7px solid transparent;
+    right: 100%;
+    top: 11px;
+}

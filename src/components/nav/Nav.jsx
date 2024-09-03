@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 import { useContext } from 'react';
 import { dataContext } from '../context/DataContext';
 import { FaShoppingCart } from 'react-icons/fa';
-
+import MagidMenu from '../MagidMenu/MagidMenu';
 function Nav() {
     const { cantidadElementosUnicos } = useContext(dataContext);
-
+    
     return (
         <div className='nav-container'>
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -18,20 +18,7 @@ function Nav() {
                         <span className="navbar-toggler-icon"></span>
                     </button>
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li className="nav-item">
-                                <Link to="/" className="nav-link" aria-current="page">Inicio</Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link to="/contacto" className="nav-link">Contacto</Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link to="/Registro" className="nav-link">Registro</Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link to="/Login" className="nav-link">Iniciar sesión</Link>
-                            </li>
-                        </ul>
+                        <MagidMenu/>
                         <div className="d-flex align-items-center">
                             <Link to="/Carrito" className="cart-link position-relative">
                                 <FaShoppingCart size={32} />

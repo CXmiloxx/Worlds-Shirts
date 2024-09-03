@@ -1,0 +1,111 @@
+@import url("https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900");
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f0f0f0;
+}
+
+.menu-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+}
+
+.menu-navigation {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    padding: 10px;
+    border-radius: 15px;
+}
+
+.menu-list {
+    display: flex;
+    justify-content: space-around;
+    position: relative;
+}
+
+.menu-item {
+    list-style: none;
+    text-align: center;
+    flex: 1;
+    padding: 10px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.menu-item a, .menu-item a:visited {
+    text-decoration: none;
+    color: inherit;
+}
+
+.menu-icon {
+    font-size: 1.5rem;
+    color: #666;
+    transition: color 0.3s;
+}
+
+.menu-text {
+    display: block;
+    font-size: 0.9rem;
+    margin-top: 5px;
+    color: #666;
+    transition: opacity 0.3s;
+    opacity: 0;
+}
+
+.menu-active .menu-icon, .menu-item:hover .menu-icon {
+    color: tomato;
+}
+
+.menu-active .menu-text, .menu-item:hover .menu-text {
+    opacity: 1;
+}
+
+
+
+.menu-indicator::before,
+.menu-indicator::after {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: white;
+}
+
+
+
+/* Responsiveness */
+@media (max-width: 480px) {
+    .menu-navigation {
+        width: 90%;
+        padding: 10px;
+    }
+
+    .menu-indicator {
+        top: 50%;
+    }
+
+    .menu-item {
+        padding: 8px;
+    }
+
+    .menu-icon {
+        font-size: 1.3rem;
+    }
+
+    .menu-text {
+        font-size: 0.8rem;
+    }
+}

@@ -9,6 +9,7 @@ import CarritoVacio from './components/carrito/CarritoVacio';
 import CarritoElements from './components/carrito/CarritoElements';
 import Recuperar from './components/RecuperarContra/Recuperar';
 import Admin from './components/administrador/Admin';
+import RegistroProductos from './components/administrador/RegistroProductos';
 
 function AppRouter() {
     return (
@@ -23,6 +24,7 @@ function AppRouter() {
                     <Route exact path='/Carrito' element={<CarritoElements />} />
                     <Route exact path='/Carrito-vacio' element={<CarritoVacio />} />
                     <Route exact path='/Recuperar' element={<Recuperar/>} />
+                    <Route exact path='/RegistroProductos' element={<RegistroProductos/>} />
                     <Route path='*' element={<NotFound />} />
                 </Routes>
             </HashRouter>

@@ -203,3 +203,40 @@ export const recuperarContra = async (req, res) => {
     }
 };
 
+export const registroProductos = async(req,res) => {
+    const { nombreProducto, marca, fechaLanzamiento, descripcionProducto , cantidad, precio} = req.body;
+    const file = req.file;
+
+    try{
+    
+        // Subir imagen a Cloudinary
+        const result = await new Promise((resolve, reject) => {
+            uploader.upload_stream({ folder: "productos" }, (error, result) => {
+                if (error) reject(error);
+                else resolve(result);
+            }).end(file.buffer);
+        });
+        const image = result.secure_url;
+        const query = "INSERT INTO productos (nombreProducto, marca, fechaLanzamiento, descripcionProducto , cantidad, precio, image) VALUES (?,?,?,?,?,?,?)";
+        const values = [nombreProducto, marca, fechaLanzamiento, descripcionProducto , cantidad, precio, image];
+        await connection.query(query, values);
+        res.status(200).json({message: "Producto agregado correctamente", success: true});
+
+
+    }catch(e){
+        console.error("Error al agregar el producto:", e);
+        res.status(500).json({message: "Error al agregar el libro", error: e.message});
+    }
+}
+
+    export const obtenerProductos = async (req, res) => {
+    try{
+        const query = "SELECT * FROM Productos";
+        const [result] = await connection.query(query);
+        res.send(result);
+
+    }catch(e){
+        console.error("Error al obtener los productos:", e);
+        res.status(500).json({message: "Error al obtener los productos", error: e.message});
+    }
+}

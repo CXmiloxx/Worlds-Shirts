@@ -33,9 +33,9 @@ export default function Cards({ productos }) {
         <div className="card2">
             <img className='contImg' src={productos.image} alt="logo" />
             <div>
-                <h5>{productos.title}</h5>
+                <h5>{productos.nombreProducto}</h5>
                 <h6 className="precio">PRECIO: {productos.precio}</h6>
-                <h6 className='autor'>MARCA : {productos.autor}</h6>
+                <h6 className='autor'>MARCA : {productos.marca}</h6>
                 <button type="button" className="btn btn-outline-primary" onClick={agregarProducto}>Comprar</button>
             </div>
         </div>
