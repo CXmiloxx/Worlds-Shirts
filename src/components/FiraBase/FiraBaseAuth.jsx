@@ -1,49 +1,43 @@
 import { useState } from "react";
 import { signInWithPopup } from "firebase/auth";
-import Cookies from "universal-cookie";
-import { authGoogle, providerGoogle} from "./FiraBaseConfig";
-import { Google} from "@mui/icons-material";
+import { authGoogle, providerGoogle } from "./FiraBaseConfig";
+import { Google } from "@mui/icons-material";
 
 export default function FiraBaseAuth() {
   const [user, setUser] = useState(null);
-  const cookies = new Cookies();
 
   const handleGoogleSignIn = async () => {
     try {
       const result = await signInWithPopup(authGoogle, providerGoogle);
-      setUser(result.user);
-      cookies.set("email", result.user.email, {
-        secure: true,
-        sameSite: "None",
-        path: "/",
-      });
-      cookies.set("imageUrl", result.user.photoURL, {
-        secure: true,
-        sameSite: "None",
-        path: "/",
-      });
-      cookies.set("nombres", result.user.displayName, {
-        secure: true,
-        sameSite: "None", 
-        path: "/",
-      });
+      const user = result.user;
+
+      // Divide el nombre completo en partes usando el espacio como delimitador
+      const nameParts = user.displayName ? user.displayName.split(" ") : [];
+      const firstName = nameParts[0] || "";
+      const lastName = nameParts.length > 1 ? nameParts.slice(1).join(" ") : "";
+
+      setUser(user);
+      sessionStorage.setItem("email", user.email || "");
+      sessionStorage.setItem("urlImagen", user.photoURL || "");
+      sessionStorage.setItem("nombres", firstName || "");
+      sessionStorage.setItem("apellidos", lastName || "");
+
       window.location.hash = "/iniciada";
     } catch (error) {
-      console.log(error);
+      console.error("Error al iniciar sesión con Google:", error);
     }
   };
 
   return (
     <div>
       {user ? (
-        <> {} </>
+        <div>Bienvenido, {user.displayName}</div>
       ) : (
-        <>
-          <button onClick={handleGoogleSignIn}>
-            <Google style={{ fontSize: "40px" }} /> Iniciar sesión con Google
-          </button>
-        </>
+        <button onClick={handleGoogleSignIn}>
+          <Google style={{ fontSize: "40px" }} /> Iniciar sesión con Google
+        </button>
       )}
     </div>
   );
 }
+  

@@ -20,7 +20,7 @@ const LoginUser = () => {
         });
     };
 
-    const iniciarSesion = (e) => {
+    const iniciarSesion = async (e) => {
         e.preventDefault();
 
         if (!values.email || !values.password) {
@@ -31,44 +31,44 @@ const LoginUser = () => {
             return;
         }
 
-        fetch(`${URL}/login`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            },
-            body: JSON.stringify(values)
-        })
-            .then(async response => {
-                if (!response.ok) {
-                    const res = await response.json();
-                    throw new Error(res.error || 'Error al iniciar sesión');
-                }
-                return response.json();
-            })
-            .then(res => {
-                if (res.success) {
-                    const user = res.user;
-                    sessionStorage.setItem('email', user.email);
-                    sessionStorage.setItem('nombres', user.nombres);
-                    sessionStorage.setItem('apellidos', user.apellidos);
-                    sessionStorage.setItem('urlImagen', user.urlImagen);
-                    sessionStorage.setItem('rol', user.rol);
-                    window.location.hash = user.rol === 'admin' ? '/Adiministrador' : '/iniciada';
-                } else {
-                    Swal.fire({
-                        title: res.error,
-                        icon: 'error'
-                    });
-                }
-            })
-            .catch(error => {
-                console.error('Error al iniciar sesión:', error);
+        try {
+            const response = await fetch(`${URL}/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify(values)
+            });
+
+            if (!response.ok) {
+                const res = await response.json();
+                throw new Error(res.error || 'Error al iniciar sesión');
+            }
+
+            const res = await response.json();
+
+            if (res.success) {
+                const user = res.user;
+                sessionStorage.setItem('email', user.email);
+                sessionStorage.setItem('nombres', user.nombres);
+                sessionStorage.setItem('apellidos', user.apellidos);
+                sessionStorage.setItem('urlImagen', user.urlImagen);
+                sessionStorage.setItem('rol', user.rol);
+                window.location.hash = user.rol === 'admin' ? '/Adiministrador' : '/iniciada';
+            } else {
                 Swal.fire({
-                    title: error.message,
+                    title: res.error,
                     icon: 'error'
                 });
+            }
+        } catch (error) {
+            console.error('Error al iniciar sesión:', error);
+            Swal.fire({
+                title: error.message,
+                icon: 'error'
             });
+        }
     };
 
     return (
@@ -120,9 +120,7 @@ const LoginUser = () => {
                         </div>
                     </form>
                     <div className="text-center m-2">
-                        <FiraBaseAuth/>
-                    </div>
-                    <div className="text-center m-2">
+                        <FiraBaseAuth />
                     </div>
                 </div>
             </div>

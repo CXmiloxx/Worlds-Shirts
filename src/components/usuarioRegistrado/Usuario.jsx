@@ -14,7 +14,6 @@ function UsuarioRegistrado() {
     const [apellidos, setApellidos] = useState('');
     const [email, setEmail] = useState('');
     const [image, setImage] = useState('');
-    
 
     useEffect(() => {
         const storedName = sessionStorage.getItem('nombres');
@@ -34,7 +33,7 @@ function UsuarioRegistrado() {
         if (storedApellidos) {
             setApellidos(storedApellidos);
         }
-    },[]);
+    }, []);
 
     function Cerrar() {
         Swal.fire({
@@ -59,7 +58,13 @@ function UsuarioRegistrado() {
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
                 <div className="container-fluid">
                     <Link to="/" className="navbar-brand">
-                        <img src={image || imgStandar} alt="profile" className='imgStandar' onClick={() => window.location.href = '/'} onError={(e) => { e.target.src = imgStandar; }} />
+                        <img 
+                            src={image || imgStandar} 
+                            alt="profile" 
+                            className='imgStandar' 
+                            onClick={() => window.location.href = '/'} 
+                            onError={(e) => { e.target.src = imgStandar; }} 
+                        />
                     </Link>
                     <button className='navbar-toggler' type='button' data-bs-toggle='collapse' data-bs-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation'>
                         <span className='navbar-toggler-icon'></span>
