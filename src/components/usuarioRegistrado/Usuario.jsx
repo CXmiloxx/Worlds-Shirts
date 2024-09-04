@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
-import Cookies from 'universal-cookie';
 import "./Usuario.css";
 import { dataContext } from '../context/DataContext';
 import imgStandar from "./img/user.png";
@@ -11,10 +10,31 @@ import Foot from '../footer/Foot';
 
 function UsuarioRegistrado() {
     const { cantidadElementosUnicos } = useContext(dataContext);
-    const cookies = new Cookies();
-    const email = cookies.get('email');
-    const nombres = cookies.get('nombres');
-    const image = cookies.get('imageUrl');
+    const [nombres, setNombres] = useState('');
+    const [apellidos, setApellidos] = useState('');
+    const [email, setEmail] = useState('');
+    const [image, setImage] = useState('');
+    
+
+    useEffect(() => {
+        const storedName = sessionStorage.getItem('nombres');
+        const storedEmail = sessionStorage.getItem('email');
+        const storedImageUrl = sessionStorage.getItem('urlImagen');
+        const storedApellidos = sessionStorage.getItem('apellidos');
+
+        if (storedName) {
+            setNombres(storedName);
+        }
+        if (storedEmail) {
+            setEmail(storedEmail);
+        }
+        if (storedImageUrl) {
+            setImage(storedImageUrl);
+        }
+        if (storedApellidos) {
+            setApellidos(storedApellidos);
+        }
+    },[]);
 
     function Cerrar() {
         Swal.fire({
@@ -25,9 +45,10 @@ function UsuarioRegistrado() {
             cancelButtonText: "Cancelar",
         }).then((result) => {
             if (result.isConfirmed) {
-                cookies.remove('email');
-                cookies.remove('nombres');
-                cookies.remove('imageUrl');
+                sessionStorage.removeItem('nombres');
+                sessionStorage.removeItem('email');
+                sessionStorage.removeItem('urlImagen');
+                sessionStorage.removeItem('apellidos');
                 window.location.hash = "/login";
             }
         });
@@ -47,6 +68,9 @@ function UsuarioRegistrado() {
                         <ul className="navbar-nav mb-2 mb-lg-0">
                             <li className="nav-item">
                                 <p className="nav-link"><span className="label">Nombre:</span> {nombres}</p>
+                            </li>
+                            <li className="nav-item">
+                                <p className="nav-link"><span className="label">Apellidos:</span> {apellidos}</p>
                             </li>
                             <li className="nav-item">
                                 <p className="nav-link"><span className="label">Email:</span> {email}</p>

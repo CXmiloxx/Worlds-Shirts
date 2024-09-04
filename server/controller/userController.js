@@ -114,6 +114,7 @@ export const usuariosBD = async (req, res) => {
     try {
         const [result] = await connection.query(query, [rol]);
         res.send(result);
+
     } catch (err) {
         console.error(err);
         res.status(500).send("Error al obtener usuarios");
@@ -231,7 +232,7 @@ export const registroProductos = async(req,res) => {
 
     export const obtenerProductos = async (req, res) => {
     try{
-        const query = "SELECT * FROM Productos";
+        const query = "SELECT * FROM productos";
         const [result] = await connection.query(query);
         res.send(result);
 

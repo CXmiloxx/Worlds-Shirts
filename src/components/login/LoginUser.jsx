@@ -31,7 +31,7 @@ const LoginUser = () => {
             return;
         }
 
-        fetch(`${URL}/login`, { // Actualiza la URL si es necesario
+        fetch(`${URL}/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -39,11 +39,10 @@ const LoginUser = () => {
             },
             body: JSON.stringify(values)
         })
-            .then(response => {
+            .then(async response => {
                 if (!response.ok) {
-                    return response.json().then(res => {
-                        throw new Error(res.error || 'Error al iniciar sesión');
-                    });
+                    const res = await response.json();
+                    throw new Error(res.error || 'Error al iniciar sesión');
                 }
                 return response.json();
             })
@@ -53,9 +52,8 @@ const LoginUser = () => {
                     sessionStorage.setItem('email', user.email);
                     sessionStorage.setItem('nombres', user.nombres);
                     sessionStorage.setItem('apellidos', user.apellidos);
-                    sessionStorage.setItem('imageUrl', user.imageUrl);
+                    sessionStorage.setItem('urlImagen', user.urlImagen);
                     sessionStorage.setItem('rol', user.rol);
-
                     window.location.hash = user.rol === 'admin' ? '/Adiministrador' : '/iniciada';
                 } else {
                     Swal.fire({
