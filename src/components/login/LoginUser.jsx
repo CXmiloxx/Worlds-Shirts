@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import './LoginUser.css';
+import './LoginUser.css'
 import FiraBaseAuth from '../FiraBase/FiraBaseAuth';
+import { dataContext } from '../context/DataContext'; // Importar el contexto
 
 const LoginUser = () => {
+    const { login } = useContext(dataContext); // Obtener la función login desde el contexto
     const URL = import.meta.env.VITE_APP_ENVIROMENT;
 
     const [values, setValues] = useState({
@@ -55,6 +57,10 @@ const LoginUser = () => {
                 sessionStorage.setItem('apellidos', user.apellidos);
                 sessionStorage.setItem('urlImagen', user.urlImagen);
                 sessionStorage.setItem('rol', user.rol);
+
+                // Actualizar el contexto de autenticación
+                login(user); // Llamar a la función login del contexto
+
                 window.location.hash = user.rol === 'admin' ? '/Adiministrador' : '/iniciada';
             } else {
                 Swal.fire({

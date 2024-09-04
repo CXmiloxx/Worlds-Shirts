@@ -5,8 +5,10 @@ import "./Usuario.css";
 import { dataContext } from '../context/DataContext';
 import imgStandar from "./img/user.png";
 import { FaShoppingCart } from 'react-icons/fa';
-import CardList from '../body/CardList';
 import Foot from '../footer/Foot';
+import PaginaPrincipal from '../paginador/PaginaPrincipal';
+import Carrusel from '../carrusel/Carrusel';
+
 
 function UsuarioRegistrado() {
     const { cantidadElementosUnicos } = useContext(dataContext);
@@ -99,7 +101,8 @@ function UsuarioRegistrado() {
                     </div>
                 </div>
             </nav>
-            <CardList />
+            <Carrusel />
+            <PaginaPrincipal />
             <Foot />
         </div>
     );

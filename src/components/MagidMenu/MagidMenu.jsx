@@ -13,7 +13,7 @@ export default function MagidMenu() {
     };
 
     const WhatsApp = () => {
-        window.open(`https://wa.me/3207512575?text=Hola, me gustaría comprar algo en Worlds Shirts!`, '_blank');
+        window.open(`https://wa.link/aydr3e`, '_blank');
     };
 
     return (
@@ -39,7 +39,7 @@ export default function MagidMenu() {
                             <span className="menu-icon">
                                 <ion-icon name="person-outline"></ion-icon>
                             </span>
-                            <span className="menu-text">Profile</span>
+                            <span className="menu-text">Registro</span>
                         </Link>
                     </li>
                     <li
@@ -50,7 +50,7 @@ export default function MagidMenu() {
                             <span className="menu-icon">
                                 <ion-icon name="chatbubble-outline"></ion-icon>
                             </span>
-                            <span className="menu-text">Message</span>
+                            <span className="menu-text">WhatsApp</span>
                         </a>
                     </li>
                     <li

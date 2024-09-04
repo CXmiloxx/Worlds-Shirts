@@ -10,6 +10,7 @@ import CarritoElements from './components/carrito/CarritoElements';
 import Recuperar from './components/RecuperarContra/Recuperar';
 import Admin from './components/administrador/Admin';
 import RegistroProductos from './components/administrador/RegistroProductos';
+import PrivateRoute from './PrivateRoute';
 
 function AppRouter() {
     return (
@@ -19,12 +20,12 @@ function AppRouter() {
                     <Route exact path='/' element={<Inicio />} />
                     <Route exact path='/Registro' element={<Registro />} />
                     <Route exact path='/Login' element={<LoginUser />} />
-                    <Route exact path='/Iniciada' element={<Usuario />} />
-                    <Route exact path='/Adiministrador' element={<Admin />} />
-                    <Route exact path='/Carrito' element={<CarritoElements />} />
-                    <Route exact path='/Carrito-vacio' element={<CarritoVacio />} />
+                    <Route exact path='/CarritoVacio' element={<CarritoVacio />} />
+                    <Route exact path='/Iniciada' element={<PrivateRoute element={<Usuario />} />} />
+                    <Route exact path='/Adiministrador' element={<PrivateRoute element={<Admin />} />} />
+                    <Route exact path='/Carrito' element={<PrivateRoute element={<CarritoElements />} />} />
                     <Route exact path='/Recuperar' element={<Recuperar/>} />
-                    <Route exact path='/RegistroProductos' element={<RegistroProductos/>} />
+                    <Route exact path='/RegistroProductos' element={<PrivateRoute element={<RegistroProductos />} />} />
                     <Route path='*' element={<NotFound />} />
                 </Routes>
             </HashRouter>
