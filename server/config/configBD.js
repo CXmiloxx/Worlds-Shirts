@@ -1,19 +1,15 @@
 /* eslint-disable no-undef */
 import mysql from 'mysql2/promise';
-import dotenv from 'dotenv';
-
-dotenv.config();
 
 let connection;
 
 export async function createConnection() {
     if (!connection) {
-        const password = process.env.VITE_APP_DB_PASSWORD || '' ;
         connection = await mysql.createConnection({
-            host: process.env.VITE_APP_DB_HOST,
-            user: process.env.VITE_APP_DB_USER,
-            password: password,
-            database: process.env.VITE_APP_DB_NAME,
+            host : 'bkfaj2n1j7fpijaf13h1-mysql.services.clever-cloud.com',
+            user: 'utypeya7dj32gwxg',
+            password: 'HuhJUO89sGTxrz2fW5hV',
+            database : 'bkfaj2n1j7fpijaf13h1',
         });
         console.log('Conexión exitosa a la base de datos');
     }
