@@ -1,17 +1,15 @@
-
-
 .login-card{
     min-width: 34%;
 }
 
 
 .gradient-custom {
-    background: linear-gradient(45deg, #1a73e8, #4285f4, #34a853, #0f9d58); /* Gradiente de colores */
+    background: linear-gradient(45deg, #1a73e8, #4285f4, #34a853, #0f9d58); 
 }
 
 .card {
     border-radius: 1rem;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Sombra suave */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); 
 }
 
 .form-control,
@@ -19,20 +17,20 @@
     border-radius: 0.5rem;
     padding: 1rem;
     font-size: 1rem;
-    background-color: #212529; /* Fondo oscuro */
-    border: 1px solid rgba(255, 255, 255, 0.2); /* Borde semi-transparente */
-    color: #ffffff; /* Texto blanco */
+    background-color: #212529; 
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff; 
 }
 
 .form-control:focus,
 .form-select:focus {
-    background-color: #343a40; /* Fondo más claro al enfocar */
-    border-color: rgba(255, 255, 255, 0.4); /* Borde más claro al enfocar */
+    background-color: #343a40;
+    border-color: rgba(255, 255, 255, 0.4);
 }
 
 .form-select option {
-    background-color: #212529; /* Fondo oscuro */
-    color: #fff; /* Texto blanco */
+    background-color: #212529;
+    color: #fff;
 }
 
 .btn-outline-light {
@@ -59,12 +57,12 @@
 }
 
 .login-card {
-    max-width: 350px; /* Ancho máximo reducido */
+    max-width: 350px; 
     width: 100%;
-    background-color: #212529; /* Fondo oscuro */
+    background-color: #212529; 
     border-radius: 10px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Sombra más pronunciada */
-    color: #fff; /* Texto blanco */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); 
+    color: #fff;
 }
 
 .login-card-header {
@@ -99,7 +97,6 @@
     margin-bottom: 0.5rem;
 }
 
-/* Estilos para los links */
 a {
     color: #4285f4;
     text-decoration: none;

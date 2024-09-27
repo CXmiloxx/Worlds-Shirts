@@ -1,12 +1,18 @@
 import './Nav.css';
 import { Link } from 'react-router-dom';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { dataContext } from '../context/DataContext';
 import { FaShoppingCart } from 'react-icons/fa';
 import MagidMenu from '../MagidMenu/MagidMenu';
+
 function Nav() {
     const { cantidadElementosUnicos } = useContext(dataContext);
-    
+    const [isOpen, setIsOpen] = useState(false);
+
+    const toggleMenu = () => {
+        setIsOpen(!isOpen);
+    };
+
     return (
         <div className='nav-container'>
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -14,12 +20,20 @@ function Nav() {
                     <Link to="/" className="navbar-brand">
                         <img src='icono_champions.jpeg' className='logo' alt="logo" />
                     </Link>
-                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <button 
+                        className="navbar-toggler" 
+                        type="button" 
+                        onClick={toggleMenu} 
+                        aria-controls="navbarSupportedContent" 
+                        aria-expanded={isOpen} 
+                        aria-label="Toggle navigation"
+                    >
                         <span className="navbar-toggler-icon"></span>
                     </button>
-                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                        <MagidMenu/>
-                        <div className="d-flex align-items-center">
+
+                    <div className={`collapse navbar-collapse ${isOpen ? 'show' : ''}`} id="navbarSupportedContent">
+                        <MagidMenu />
+                        <div className="d-flex align-items-center ms-auto">
                             <Link to="/Carrito" className="cart-link position-relative">
                                 <FaShoppingCart size={32} />
                                 {cantidadElementosUnicos > 0 && (

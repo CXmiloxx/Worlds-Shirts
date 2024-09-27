@@ -11,7 +11,10 @@ export default function FiraBaseAuth() {
       const result = await signInWithPopup(authGoogle, providerGoogle);
       const user = result.user;
 
-      // Divide el nombre completo en partes usando el espacio como delimitador
+      console.log("URL de la imagen:", user.photoURL); // Verifica si está presente
+
+      
+
       const nameParts = user.displayName ? user.displayName.split(" ") : [];
       const firstName = nameParts[0] || "";
       const lastName = nameParts.length > 1 ? nameParts.slice(1).join(" ") : "";

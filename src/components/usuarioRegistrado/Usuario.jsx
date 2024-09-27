@@ -9,7 +9,6 @@ import Foot from '../footer/Foot';
 import PaginaPrincipal from '../paginador/PaginaPrincipal';
 import Carrusel from '../carrusel/Carrusel';
 
-
 function UsuarioRegistrado() {
     const { cantidadElementosUnicos } = useContext(dataContext);
     const [nombres, setNombres] = useState('');
@@ -23,17 +22,21 @@ function UsuarioRegistrado() {
         const storedImageUrl = sessionStorage.getItem('urlImagen');
         const storedApellidos = sessionStorage.getItem('apellidos');
 
+
         if (storedName) {
             setNombres(storedName);
         }
         if (storedEmail) {
             setEmail(storedEmail);
         }
-        if (storedImageUrl) {
-            setImage(storedImageUrl);
-        }
         if (storedApellidos) {
             setApellidos(storedApellidos);
+        }
+
+        if (storedImageUrl && storedImageUrl.trim() !== '') {
+            setImage(storedImageUrl);
+        } else {
+            setImage(imgStandar);
         }
     }, []);
 
@@ -61,7 +64,7 @@ function UsuarioRegistrado() {
                 <div className="container-fluid">
                     <Link to="/" className="navbar-brand">
                         <img 
-                            src={image || imgStandar} 
+                            src={image} 
                             alt="profile" 
                             className='imgStandar' 
                             onClick={() => window.location.href = '/'} 
