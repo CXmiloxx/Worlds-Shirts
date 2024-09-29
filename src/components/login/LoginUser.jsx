@@ -4,6 +4,7 @@ import Swal from 'sweetalert2';
 import './LoginUser.css'
 import FiraBaseAuth from '../FiraBase/FiraBaseAuth';
 import { dataContext } from '../context/DataContext';
+import Nav from '../nav/Nav';
 
 const LoginUser = () => {
     const { login } = useContext(dataContext);
@@ -79,6 +80,7 @@ const LoginUser = () => {
     return (
         <div className="login-container">
             <div className="login-card">
+            <Nav/>
                 <div className="login-card-header">
                     <h2 className="login-card-title">INICIAR SESION</h2>
                 </div>

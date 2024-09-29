@@ -69,7 +69,7 @@ export default function Recuperar() {
                                         <div className="form-floating">
                                             <input
                                                 type="email" 
-                                                className="form-control text-light" 
+                                                className="form-control text-primary" 
                                                 name="email"
                                                 id="email"
                                                 placeholder="name@example.com" 

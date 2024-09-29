@@ -65,10 +65,6 @@ export default function MagidMenu() {
                         </Link>
                     </li>
                 </ul>
-                <div
-                    className="menu-indicator"
-                    style={{ transform: `translateX(${activeIndex * 100}px)` }}
-                ></div>
             </div>
         </div>
     );
