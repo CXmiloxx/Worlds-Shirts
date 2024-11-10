@@ -75,7 +75,6 @@ export default function Registro() {
             }
         }
 
-        // Envío de datos al servidor
         const formData = new FormData();
         Object.keys(values).forEach(key => {
             formData.append(key, values[key]);
